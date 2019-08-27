@@ -1,10 +1,11 @@
-navbar {
+.navbar {
   font-size: 19px;
-  font-weight: 500;
+  font-weight: 750;
+  background-color: #f5f5f5;
 }
 .navbar-brand {
   font-size: 32px !important;
-  font-weight: 350;
+  font-weight: 600;
 }
 
 #navbarSupportedContent {
@@ -27,4 +28,8 @@ navbar {
 }
 .footer-a {
   padding-left: 100px !important ;
+}
+
+* {
+  font-family: "Titillium Web", sans-serif;
 }

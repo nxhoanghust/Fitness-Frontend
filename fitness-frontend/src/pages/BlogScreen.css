@@ -1,0 +1,12 @@
+.breadcrumb-item {
+  padding-left: 5px;
+}
+
+.add-post {
+  position: absolute;
+  right: 0;
+  font-weight: bold !important;
+}
+.modal-upload {
+  color: black;
+}

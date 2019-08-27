@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import LoginScreen from "./pages/LoginScreen";
 import HomePageScreen from "./pages/HomePageScreen";
+import BlogScreen from "./pages/BlogScreen";
 import "./App.css";
 
 class App extends React.Component {
@@ -9,9 +10,12 @@ class App extends React.Component {
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <a className="navbar-brand" href="/">
-            MindX Fitness
-          </a>
+          <div className="ml-4">
+            <a className="navbar-brand" href="/">
+              mind<span style={{ color: "#e82d07" }}>X</span> Fitness
+            </a>
+          </div>
+
           <button
             className="navbar-toggler"
             type="button"
@@ -25,7 +29,7 @@ class App extends React.Component {
           </button>
 
           <div
-            className="collapse navbar-collapse "
+            className="collapse navbar-collapse  mr-4"
             id="navbarSupportedContent"
           >
             <ul className="navbar-nav mr-auto">
@@ -60,6 +64,7 @@ class App extends React.Component {
         <BrowserRouter>
           <Route path="/login" exact={true} component={LoginScreen}></Route>
           <Route path="/" exact={true} component={HomePageScreen}></Route>
+          <Route path="/blogs" exact={true} component={BlogScreen}></Route>
         </BrowserRouter>
         <footer className="page-footer font-small teal pt-4 footer color">
           <div className="container-fluid text-center text-md-left">
@@ -88,7 +93,7 @@ class App extends React.Component {
           </div>
 
           <div className="footer-copyright text-center py-3 color">
-            © 2019 Copyright:   Mindx-Fitness.com
+            © 2019 Copyright: Mindx-Fitness.com
           </div>
         </footer>
       </div>
