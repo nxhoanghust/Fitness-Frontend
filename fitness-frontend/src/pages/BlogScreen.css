@@ -10,3 +10,7 @@
 .modal-upload {
   color: black;
 }
+
+.breadcrumb-item {
+  font-size: 13px;
+}

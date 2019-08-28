@@ -7,6 +7,7 @@ import "./App.css";
 
 class App extends React.Component {
   render() {
+    console.log(this.state);
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -33,39 +34,41 @@ class App extends React.Component {
             id="navbarSupportedContent"
           >
             <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
+              <li className="nav-item  ">
                 <a className="nav-link" href="/">
                   Home <span className="sr-only">(current)</span>
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item  ">
                 <a className="nav-link" href="/blogs">
                   Blogs
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <a className="nav-link" href="/" value="about">
                   About
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link " href="/login">
+                <a className="nav-link " href="/login" value="signin">
                   Sign In
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link " href="/register">
+                <a className="nav-link " href="/register" value="signup">
                   Sign Up
                 </a>
               </li>
             </ul>
           </div>
         </nav>
-        <BrowserRouter>
-          <Route path="/login" exact={true} component={LoginScreen}></Route>
-          <Route path="/" exact={true} component={HomePageScreen}></Route>
-          <Route path="/blogs" exact={true} component={BlogScreen}></Route>
-        </BrowserRouter>
+        <div className="content">
+          <BrowserRouter>
+            <Route path="/login" exact={true} component={LoginScreen}></Route>
+            <Route path="/" exact={true} component={HomePageScreen}></Route>
+            <Route path="/blogs" exact={true} component={BlogScreen}></Route>
+          </BrowserRouter>
+        </div>
         <footer className="page-footer font-small teal pt-4 footer color">
           <div className="container-fluid text-center text-md-left">
             <div className="row">
