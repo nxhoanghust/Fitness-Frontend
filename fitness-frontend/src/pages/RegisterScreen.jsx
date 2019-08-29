@@ -5,7 +5,7 @@ import "./RegisterScreen.css";
 import {
   Form,
   Input,
-  Tooltip,
+  message,
   Icon,
   Cascader,
   Select,
@@ -43,8 +43,41 @@ class RegiterForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log("Received values of form: ", values);
+      var phoneNumber = "0" + values.phone;
+      //console.log(values);
+      if (err) {
+        message.err(err);
+      } else if (values.agreement === undefined) {
+        message.warning("Please read the Agreement");
+      } else {
+        fetch("http://localhost:3001/users/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email: values.email,
+            password: values.password,
+            fullName: values.fullname,
+            phoneNumber: phoneNumber,
+            address: values.residence[0]
+          })
+        })
+          .then(res => {
+            return res.json();
+          })
+          .then(data => {
+            if (data.success === false) {
+              message.error(data.message);
+            } else {
+              message.success("Register Successfull");
+              window.location.href = "/login";
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            window.alert(error.message);
+          });
       }
     });
   };

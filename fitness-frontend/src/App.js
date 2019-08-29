@@ -5,8 +5,9 @@ import HomePageScreen from "./pages/HomePageScreen";
 import BlogScreen from "./pages/BlogScreen";
 import "./App.css";
 import RegisterScreen from "./pages/RegisterScreen";
-import { Menu, Dropdown, Icon, message } from "antd";
+import { Menu, Dropdown, Icon, message, Layout } from "antd";
 
+const { Footer } = Layout;
 class App extends React.Component {
   componentDidMount() {
     const email = window.localStorage.getItem("email");
@@ -35,6 +36,10 @@ class App extends React.Component {
           window.alert(error.message);
         });
     }
+    const url = window.location.pathname.split("/");
+    this.setState({
+      active: url[1]
+    });
   }
   componentWillMount() {
     const email = window.localStorage.getItem("email");
@@ -84,11 +89,11 @@ class App extends React.Component {
   render() {
     console.log(this.state);
     return (
-      <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div id="container">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="ml-4">
             <a className="navbar-brand" href="/">
-              mind<span style={{ color: "#e82d07" }}>X</span> Fitness
+              Keep Fit
             </a>
           </div>
 
@@ -131,7 +136,7 @@ class App extends React.Component {
               </li>
               <li
                 className={
-                  this.state.active === "signin"
+                  this.state.active === "about"
                     ? "nav-item active"
                     : "nav-item "
                 }
@@ -177,12 +182,24 @@ class App extends React.Component {
               </ul>
             ) : (
               <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
+                <li
+                  className={
+                    this.state.active === "login"
+                      ? "nav-item active"
+                      : "nav-item"
+                  }
+                >
                   <a className="nav-link " href="/login" value="signin">
                     Sign In
                   </a>
                 </li>
-                <li className="nav-item">
+                <li
+                  className={
+                    this.state.active === "register"
+                      ? "nav-item active"
+                      : "nav-item"
+                  }
+                >
                   <a className="nav-link " href="/register" value="signup">
                     Sign Up
                   </a>
@@ -203,10 +220,10 @@ class App extends React.Component {
             ></Route>
           </BrowserRouter>
         </div>
-        <footer className="page-footer font-small teal pt-4 footer color">
+        {/*<div className=" font-small  footer color">
           <div className="container-fluid text-center text-md-left">
             <div className="row">
-              <div className="col-md-6 mt-md-0 mt-3 footer-b color">
+              <div className="col-md-6 mt-md-0 pt-3 pl-5 footer-b color">
                 <h5 className="text-uppercase font-weight-bold">About Us</h5>
                 <p className="small-text ">
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit.
@@ -216,7 +233,7 @@ class App extends React.Component {
                 </p>
               </div>
 
-              <div className="col-md-6 mb-md-0 mb-3 footer-a color">
+              <div className="col-md-6 mb-md-0 pt-3 pl-5 footer-a color">
                 <h5 className="text-uppercase font-weight-bold ">
                   Contact Us:
                 </h5>
@@ -232,7 +249,7 @@ class App extends React.Component {
           <div className="footer-copyright text-center py-3 color">
             © 2019 Copyright: Mindx-Fitness.com
           </div>
-        </footer>
+                </div>*/}
       </div>
     );
   }

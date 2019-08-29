@@ -2,15 +2,39 @@
   padding-left: 5px;
 }
 
-.add-post {
-  position: absolute;
-  right: 0;
-  font-weight: bold !important;
-}
 .modal-upload {
   color: black;
 }
 
 .breadcrumb-item {
   font-size: 13px;
+}
+.button-group {
+  width: 100%;
+  display: block;
+  background-color: #ff4b42 !important;
+  font-weight: bold !important;
+  font-size: 19px !important;
+  border-color: rgb(250, 25, 25) !important;
+}
+.button-group:hover {
+  background-color: rgb(250, 25, 25) !important;
+}
+.add-post {
+  display: block !important;
+}
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 100%;
+  line-height: 100%;
+  background: #29323c;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
+}
+.post {
+  margin: 1rem;
 }

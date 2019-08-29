@@ -1,5 +1,16 @@
 import React from "react";
-import { Breadcrumb, Icon, Modal, Input, Upload, message, Tag } from "antd";
+import {
+  Breadcrumb,
+  Icon,
+  Modal,
+  Input,
+  Upload,
+  message,
+  Tag,
+  Row,
+  Col,
+  Carousel
+} from "antd";
 import "./BlogScreen.css";
 import "antd/dist/antd.css";
 import { TweenOneGroup } from "rc-tween-one";
@@ -16,7 +27,65 @@ function getBase64(file) {
 }
 
 class BlogScreen extends React.Component {
+  componentDidMount() {
+    const email = window.localStorage.getItem("email");
+    const fullName = window.localStorage.getItem("fullName");
+    if (!email || !fullName) {
+      fetch("http://localhost:3001/users/test", {
+        credentials: "include",
+        method: "GET"
+      })
+        .then(res => {
+          return res.json();
+        })
+        .then(data => {
+          //console.log(data);
+          if (data.success == true) {
+            this.setState({
+              currentUser: {
+                email: data.data.email,
+                fullName: data.data.fullName
+              }
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          window.alert(error.message);
+        });
+    } else {
+      this.setState({
+        currentUser: {
+          email: email,
+          fullName: fullName
+        }
+      });
+    }
+    //take the post
+    fetch(`http://localhost:3001/posts/get`, { method: "GET" })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        //console.log(data);
+        this.setState({
+          data: data.data
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        message.error(error.message);
+      });
+    // end test
+  }
+
   state = {
+    pageNumber: 1,
+    PageSize: 5,
+    currentUser: {
+      email: "",
+      fullName: ""
+    },
     content: "",
     previewVisible: false,
     previewImage: "",
@@ -24,7 +93,8 @@ class BlogScreen extends React.Component {
     tags: [],
     inputValue: "",
     title: "",
-    inputVisible: false
+    inputVisible: false,
+    data: []
   };
   //tags
   handleTagClose = removedTag => {
@@ -139,6 +209,7 @@ class BlogScreen extends React.Component {
         })
         .then(data => {
           // console.log(data.imageUrl);
+          console.log(this.state);
           fetch("http://localhost:3001/posts/create", {
             credentials: "include",
             method: "POST",
@@ -149,7 +220,7 @@ class BlogScreen extends React.Component {
               content: this.state.content,
               imageUrl: data.imageUrl,
               tag: this.state.tags,
-              title: this.setState.title
+              title: this.state.title
             })
           })
             .then(res => {
@@ -186,8 +257,12 @@ class BlogScreen extends React.Component {
       title: e.target.value
     });
   };
+
+  //pagination
+
   render() {
-    //console.log(this.state);
+    console.log(this.state);
+
     const { previewVisible, previewImage, fileList } = this.state;
     const { tags, inputVisible, inputValue } = this.state;
     const tagChild = tags.map(this.forMap);
@@ -198,30 +273,42 @@ class BlogScreen extends React.Component {
       </div>
     );
     return (
-      <div className="ml-5 mr-5">
+      <div className="ml-5 mr-5 pt-3">
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
             <Breadcrumb.Item className="breadcrumb-item">
-              <a href="/">
+              <a href="/" style={{ fontSize: "17px" }}>
                 <Icon type="home" />
                 Home/
               </a>
             </Breadcrumb.Item>
             <Breadcrumb.Separator>/</Breadcrumb.Separator>
             <Breadcrumb.Item className="breadcrumb-item">
-              <a href="/Blogs">Blogs/</a>
+              <a href="/Blogs" style={{ fontSize: "17px" }}>
+                Blogs/
+              </a>
             </Breadcrumb.Item>
           </Breadcrumb.Item>
         </Breadcrumb>
-        <div className="container">
-          <button
-            type="button"
-            className="btn btn-outline-dark add-post mr-5"
-            onClick={this.showModal}
-          >
-            <Icon type="plus" style={{ fontSize: 14 }} />
-            New Post
-          </button>
+
+        <div className="row">
+          {this.state.currentUser.email ? (
+            <Row>
+              <button
+                type="button"
+                className="btn btn-outline-dark add-post "
+                onClick={this.showModal}
+                style={{
+                  width: "200px",
+                  textAlign: "center",
+                  fontWeight: "bold"
+                }}
+              >
+                <Icon type="plus" style={{ fontSize: 14 }} />
+                New Post
+              </button>
+            </Row>
+          ) : null}
           <Modal
             title="Basic Modal"
             visible={this.state.visible}
@@ -302,6 +389,44 @@ class BlogScreen extends React.Component {
             </div>
           </Modal>
         </div>
+        <Row>
+          <Col span={19} className="post">
+            {this.state.data.map(i => {
+              return (
+                <Carousel autoplay>
+                  {i.srcUrl.map(item => {
+                    //console.log(item);
+                    return (
+                      <div>
+                        <img src={item} style={{ width: "300px" }}></img>
+                      </div>
+                    );
+                  })}
+                  <div>{i.content} </div>
+                </Carousel>
+              );
+            })}
+          </Col>
+          <Col span={4}>
+            <div class="btn-group-vertical" style={{ width: "100%" }}>
+              <button type="button" class="btn btn-secondary button-group">
+                Categories
+              </button>
+              <button type="button" class="btn btn-secondary button-group">
+                Boxing
+              </button>
+              <button type="button" class="btn btn-secondary button-group">
+                Yoga
+              </button>
+              <button type="button" class="btn btn-secondary button-group">
+                Diet
+              </button>
+              <button type="button" class="btn btn-secondary button-group">
+                Street Workout
+              </button>
+            </div>
+          </Col>
+        </Row>
       </div>
     );
   }
