@@ -1,0 +1,108 @@
+.DashBoard .container-fluid {
+    font-family:'montserrat';
+    max-width: 1300px;
+}
+.DashBoard{
+    height: 400px;
+    color:white;
+    background-image: url('../img/fitness3.jpg');   
+}
+.DashBoard .avatar img {
+    border-radius: 50%;
+    max-width: 30px;
+    margin-bottom: 10px;
+}
+
+.DashBoard .nav-change a{
+    padding-top: 11.5px;
+}
+
+.DashBoard .nav-item {
+    margin-right: 18px;
+    font-size: 15px;
+}
+
+.DashBoard .navbar-brand {
+    font-weight: bold;
+}
+
+.DashBoard header .quote {
+    max-width: 600px;
+    border-bottom: 1.5px solid #f55c3d;
+    padding-bottom: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.DashBoard header {
+    margin-bottom: 10vh;
+    margin-top: 0px;
+}
+
+.DashBoard header .quote p {
+    font-size: 0.95rem;
+    
+}
+
+.DashBoard header .quote h4 {
+    font-size: 1.6rem;
+    
+}
+
+.DashBoard .selection-1 {
+    background-image: url('../img/fitness.jpg');   
+    height: 60vh;
+    width: auto;
+    background-size: cover;
+    
+}
+
+.DashBoard .selection-2 {
+    background-image: url('../img/fitness4.jpg');   
+    height: 60vh;
+    width: auto;
+    background-size: cover;
+}
+
+.DashBoard .selection-3 {
+    background-image: url('../img/fitness5.jpg');   
+    height: 60vh;
+    width: auto;
+    background-size: cover;
+}
+
+.DashBoard .gradient-selection{
+    content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+    left: 0;
+    background: linear-gradient(rgba(0, 63, 82, 0),rgb(126, 124, 124));
+	opacity: .3; 
+}
+
+.DashBoard .button {
+    font-size: 18px;
+    padding: 8px;
+    color: #ff6749;
+    border-radius: 30px/50px;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    min-width: 200px;
+    max-height: 50px;
+    top: 40%;
+    position: relative;
+    background: white;
+    border: 1.5px solid #f34f2e;
+}
+
+.DashBoard .button:hover {
+    background: #ff6749;
+    color: white;
+
+}
+
+.DashBoard .main-content {
+    text-align: center;
+}
+
