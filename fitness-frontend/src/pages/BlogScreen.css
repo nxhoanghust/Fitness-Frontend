@@ -1,7 +1,9 @@
 .breadcrumb-item {
   padding-left: 5px;
 }
-
+* {
+  font-size: 18px;
+}
 .modal-upload {
   color: black;
 }
@@ -25,16 +27,39 @@
 }
 .ant-carousel .slick-slide {
   text-align: center;
-  height: 100%;
-  line-height: 100%;
-  background: #29323c;
+  background: #262626;
   overflow: hidden;
-  margin-bottom: 2rem;
 }
 
 .ant-carousel .slick-slide h3 {
-  color: #fff;
+  color: black;
 }
 .post {
   margin: 1rem;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.content-box {
+  border-top-color: rgb(236, 236, 236);
+  border-top-width: 1px;
+  border-style: solid none none none;
+}
+.post-h:hover {
+  text-decoration: none !important;
+  background-color: whitesmoke;
+}
+.caption {
+  font-size: 27px !important;
+  font-weight: 900;
+}
+.caption:hover {
+  background-color: whitesmoke;
+}
+.underline:hover {
+  text-decoration: underline;
 }

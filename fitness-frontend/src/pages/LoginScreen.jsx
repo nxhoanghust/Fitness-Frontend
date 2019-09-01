@@ -40,7 +40,7 @@ class NornamlForm extends React.Component {
               if (values.remember) {
                 window.localStorage.setItem("email", data.data.email);
                 window.localStorage.setItem("fullName", data.data.fullName);
-                window.localStorage.setItem("id", data.data._id);
+                window.localStorage.setItem("_id", data.data._id);
               }
               window.location.href = "/";
             }

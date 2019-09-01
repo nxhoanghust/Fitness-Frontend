@@ -6,16 +6,31 @@ import BlogScreen from "./pages/BlogScreen";
 import "./App.css";
 import RegisterScreen from "./pages/RegisterScreen";
 import { Menu, Dropdown, Icon, message, Layout } from "antd";
+import CommentSreen from "./pages/CommentScreen";
+import ProfileScreen from "./pages/ProfileScreen";
 
 const { Footer } = Layout;
 class App extends React.Component {
   componentDidMount() {
     const email = window.localStorage.getItem("email");
     const fullName = window.localStorage.getItem("fullName");
-    if (!email || !fullName) {
+    const id = window.localStorage.getItem("_id");
+    const url = window.location.pathname.split("/");
+    this.setState({
+      active: url[1]
+    });
+    if (email && id) {
       fetch("http://localhost:3001/users/test", {
         credentials: "include",
-        method: "GET"
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email,
+          fullName: fullName,
+          _id: id
+        })
       })
         .then(res => {
           return res.json();
@@ -26,7 +41,8 @@ class App extends React.Component {
             this.setState({
               currentUser: {
                 email: data.data.email,
-                fullName: data.data.fullName
+                fullName: data.data.fullName,
+                _id: data.data._id
               }
             });
           }
@@ -36,19 +52,17 @@ class App extends React.Component {
           window.alert(error.message);
         });
     }
-    const url = window.location.pathname.split("/");
-    this.setState({
-      active: url[1]
-    });
   }
   componentWillMount() {
     const email = window.localStorage.getItem("email");
     const fullName = window.localStorage.getItem("fullName");
+    const id = window.localStorage.getItem("_id");
     if (email && fullName) {
       this.setState({
         currentUser: {
           email: email,
-          fullName: fullName
+          fullName: fullName,
+          _id: id
         }
       });
     }
@@ -57,29 +71,29 @@ class App extends React.Component {
     active: "",
     currentUser: {
       email: "",
-      fullName: ""
+      fullName: "",
+      _id: ""
     }
   };
 
   Logout() {
     fetch("http://localhost:3001/users/logout", {
-      credentials: "include",
       method: "GET"
     })
       .then(res => {
         return res.json();
       })
       .then(data => {
-        window.localStorage.removeItem("email");
-        window.localStorage.removeItem("fullName");
-        window.localStorage.removeItem("id");
         if (data.success === false) {
           message.error(data.message);
         } else {
+          window.localStorage.removeItem("email");
+          window.localStorage.removeItem("fullName");
+          window.localStorage.removeItem("_id");
           message.success(data.message);
         }
         //console.log(data);
-        window.location.href = "/";
+        window.location.reload();
       })
       .catch(error => {
         console.log(error);
@@ -125,7 +139,7 @@ class App extends React.Component {
               </li>
               <li
                 className={
-                  this.state.active === "blogs"
+                  this.state.active === "blogs" || this.state.active === "posts"
                     ? "nav-item active"
                     : "nav-item "
                 }
@@ -146,7 +160,7 @@ class App extends React.Component {
                 </a>
               </li>
             </ul>
-            {this.state.currentUser.email ? (
+            {this.state.currentUser.email && this.state.currentUser._id ? (
               <ul className="navbar-nav mr-auto">
                 <li className="nav-item dropdown">
                   <Dropdown
@@ -156,6 +170,14 @@ class App extends React.Component {
                           <div className="dropdown-list">
                             {this.state.currentUser.email}
                           </div>
+                        </Menu.Item>
+                        <Menu.Item>
+                          <a
+                            href={"/users/" + this.state.currentUser._id}
+                            className="dropdown-list"
+                          >
+                            Update Profile
+                          </a>
                         </Menu.Item>
                         <Menu.Item>
                           <a
@@ -213,6 +235,8 @@ class App extends React.Component {
             <Route path="/" exact={true} component={HomePageScreen}></Route>
             <Route path="/blogs" exact={true} component={BlogScreen}></Route>
             <Route path="/login" exact={true} component={LoginScreen}></Route>
+            <Route path="/posts/" component={CommentSreen}></Route>
+            <Route path="/users/" component={ProfileScreen}></Route>
             <Route
               path="/register"
               exact={true}
