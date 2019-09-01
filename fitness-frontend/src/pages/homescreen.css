@@ -1,0 +1,220 @@
+.HomeScreen .header{
+    background: url('https://icdn3.digitaltrends.com/image/best-fitness-apps-update_.jpg?ver=1') center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 95vh;
+
+    
+}
+
+.HomeScreen .nav{
+    position: relative;
+}
+.HomeScreen .nav-link{
+    color: white;
+}
+.HomeScreen .gradient{
+    content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+    left: 0;
+    height: 95vh;
+	background-image: linear-gradient(to bottom right,#002f4b,#dc4225);
+	opacity: .75; 
+}
+
+.HomeScreen .slogan{
+    font-size: 70px;
+    font-family: 'montserrat';
+    max-width: 90%;
+    font-weight: 700;
+    color: white;  
+    line-height: 90%;
+    position: relative;
+    top: 25%;
+    left:15%;
+
+}
+
+.HomeScreen .slogan button{
+    background-color: #f34f2e;
+    color: white;  
+}
+
+.HomeScreen .button {
+    margin-top: 20px;
+    font-size: 20px;
+    padding: 10px;
+    color: #fff;
+    border: 2px solid #f34f2e;
+    border-radius: 20px/50px;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    
+}
+
+.HomeScreen .button:hover {
+    background: #f34f2e;
+    color: white;
+}
+
+.HomeScreen .overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+.HomeScreen .overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.HomeScreen .popup {
+    margin: 0 auto;
+    margin-top: 12%;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 5s ease-in-out;
+    text-align: center;
+}
+
+.HomeScreen .popup h5 {
+    font-family: 'montserrat';
+    margin-bottom: 30px;
+    margin-top: 0;
+    color: #5c5c5c;
+}
+
+.HomeScreen .popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+.HomeScreen .popup .close:hover {
+    color: #f34f2e;
+}
+.HomeScreen .popup .content {
+    max-height: 30%;
+    overflow: auto;
+}
+
+.HomeScreen .popup button{
+    width: 200px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.HomeScreen .other-info{
+    position: absolute;
+    text-align: center;
+    margin-top: 180px; 
+    line-height: 30%;
+}
+
+.HomeScreen .slogan .instruction{
+    font-size: 25px;
+    font-family: 'lato';
+    font-weight: 200;
+}
+
+.HomeScreen .slogan i{
+    font-family: 'FontAwesome';
+    font-weight: 100; 
+    font-style: normal;
+    font-size: 40px;
+}
+
+
+.HomeScreen .sign-up-container{
+    color: rgb(88, 88, 88);
+    margin-top: 90px;
+    visibility: visible;
+}
+
+.HomeScreen .sign-up-container .container{
+    padding-top: 10px;
+    background-color:white;
+    
+    border-radius: 10px; 
+    max-width: 70%;
+}
+.HomeScreen .sign-up-container input{
+    max-width: 90%;
+    margin: 0 auto;
+}
+.HomeScreen .sign-up-container button{
+    margin-bottom: 15px;
+    background-color: #f34f2e;
+    color: white;  
+}
+
+.HomeScreen .sign-up-container p{
+    font-size: 25px;
+    font-family: 'montserrat';
+}
+
+.HomeScreen .intro-container{
+    margin-top: 60px;
+}
+
+.HomeScreen .image-intro img{
+    max-width: 350px;
+    margin-left: 25%;
+}
+
+.HomeScreen .content-intro h4{
+    padding-top: 50px;
+    padding-bottom: 10px;
+    text-align: center;
+    color: 	#5a5a5a;
+    font-family: 'montserrat';
+    font-size: 24px;
+}
+
+.HomeScreen .content-intro{
+    max-width: 80vh;
+    font-size: 18px;
+}
+
+.HomeScreen .content-intro-2{
+    max-width: 80vh;
+    margin-left: 25%;
+    color: #dddddd;
+    font-size: 18px;
+}
+
+.HomeScreen .content-intro-2 h4{
+    padding-top: 50px;
+    padding-bottom: 10px;
+    text-align: center;
+    color: 	#ffffff;
+    font-family: 'montserrat';
+    font-size: 24px;
+}
+
+.HomeScreen .intro-container-2{
+    margin-top: 60px;
+    padding-top: 60px;
+    background-image: linear-gradient(to bottom right,#002f4b,#dc4225);
+    opacity: .9;
+    padding-bottom: 60px;
+}
