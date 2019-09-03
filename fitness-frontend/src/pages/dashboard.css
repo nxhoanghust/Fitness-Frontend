@@ -48,28 +48,6 @@
     
 }
 
-.DashBoard .selection-1 {
-    background-image: url('../img/fitness.jpg');   
-    height: 60vh;
-    width: auto;
-    background-size: cover;
-    
-}
-
-.DashBoard .selection-2 {
-    background-image: url('../img/fitness4.jpg');   
-    height: 60vh;
-    width: auto;
-    background-size: cover;
-}
-
-.DashBoard .selection-3 {
-    background-image: url('../img/fitness5.jpg');   
-    height: 60vh;
-    width: auto;
-    background-size: cover;
-}
-
 .DashBoard .gradient-selection{
     content: '';
 	position: absolute;
