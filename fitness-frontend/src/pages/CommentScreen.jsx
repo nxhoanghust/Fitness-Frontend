@@ -68,28 +68,31 @@ class CommentSreen extends React.Component {
   };
 
   componentDidMount() {
-    fetch("http://localhost:3001/users/test", {
+    /*fetch("http://localhost:3001/users/test", {
       method: "POST"
     })
       .then(res => {
         return res.json();
       })
       .then(data => {
-        if (data.success == true) {
-          this.setState({
-            currentUser: {
-              email: data.data.email,
-              fullName: data.data.fullName,
-              _id: data.data._id
-            }
-          });
-        }
+        console.log(data);
+        console.log("run");
+        this.setState({
+          currentUser: {
+            email: data.data.email,
+            fullName: data.data.fullName,
+            _id: data.data._id
+          }
+        });
       })
       .catch(error => {
         console.log(error);
         window.alert(error.message);
       });
-
+*/
+    const id = window.sessionStorage.getItem("_id");
+    const fullName = window.sessionStorage.getItem("fullName");
+    const email = window.sessionStorage.getItem("email");
     fetch(`http://localhost:3001/posts/${postsId}`, {
       credentials: "include",
       method: "GET"
@@ -282,7 +285,17 @@ class CommentSreen extends React.Component {
               ) : (
                 <Card
                   className="bg-content"
-                  cover={<Avatar size={64} icon="user" className="center" />}
+                  cover={
+                    this.state.author.avatar ? (
+                      <Avatar
+                        size={64}
+                        src={this.state.author.avatar}
+                        className="center"
+                      />
+                    ) : (
+                      <Avatar size={64} icon="user" className="center" />
+                    )
+                  }
                   style={{ border: "none" }}
                   actions={[
                     <a href={"/users/" + this.state.author._id}>
@@ -369,7 +382,7 @@ class CommentSreen extends React.Component {
                             this.state.color[Math.ceil(Math.random() * 10)]
                           }
                         >
-                          {item}
+                          <a href={"/search/" + item}> {item}</a>
                         </Tag>
                       );
                     })
@@ -383,16 +396,19 @@ class CommentSreen extends React.Component {
             <Row>
               {this.state.dataComment
                 ? this.state.dataComment.map(item => {
-                    var likeLocal = item.like;
                     return (
                       <div>
                         <Comment
                           author={<a>{item.author.fullName}</a>}
                           avatar={
-                            <Avatar
-                              src={<Icon type="profile" key="profile"></Icon>}
-                              alt="Avatar"
-                            />
+                            item.author.avatar ? (
+                              <Avatar src={item.author.avatar} alt="Avatar" />
+                            ) : (
+                              <Avatar
+                                src={<Icon type="profile" key="profile"></Icon>}
+                                alt="Avatar"
+                              />
+                            )
                           }
                           content={
                             <div>
@@ -428,7 +444,7 @@ class CommentSreen extends React.Component {
               style={{ borderWidth: "0.5px", borderStyle: "dashed" }}
               className="pl-3 pr-3"
             >
-              {this.state.currentUser.email ? (
+              {window.sessionStorage._id && window.sessionStorage.email ? (
                 <Form onSubmit={this.handleSubmit} id="comment-form">
                   <Form.Item className="form-group mt-3">
                     <label htmlFor="comment">Comment:</label>

@@ -5,21 +5,35 @@ import HomePageScreen from "./pages/HomePageScreen";
 import BlogScreen from "./pages/BlogScreen";
 import "./App.css";
 import RegisterScreen from "./pages/RegisterScreen";
-import { Menu, Dropdown, Icon, message, Layout } from "antd";
+import { Menu, Dropdown, Icon, message, Layout, Avatar } from "antd";
 import CommentSreen from "./pages/CommentScreen";
 import ProfileScreen from "./pages/ProfileScreen";
+import SearchScreen from "./pages/SearchScreen";
 
 const { Footer } = Layout;
 class App extends React.Component {
+  state = {
+    active: "",
+    currentUser: {
+      email: "",
+      fullName: "",
+      _id: ""
+    }
+  };
   componentDidMount() {
+    const url = window.location.pathname.split("/");
     const email = window.localStorage.getItem("email");
     const fullName = window.localStorage.getItem("fullName");
     const id = window.localStorage.getItem("_id");
-    const url = window.location.pathname.split("/");
+    const avatar = window.localStorage.getItem("avatar");
     this.setState({
       active: url[1]
     });
     if (email && id) {
+      window.sessionStorage.setItem("email", email);
+      window.sessionStorage.setItem("fullName", fullName);
+      window.sessionStorage.setItem("_id", id);
+      window.sessionStorage.setItem("avatar", avatar);
       fetch("http://localhost:3001/users/test", {
         credentials: "include",
         method: "POST",
@@ -27,9 +41,9 @@ class App extends React.Component {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          email: email,
-          fullName: fullName,
-          _id: id
+          email: window.sessionStorage.getItem("email"),
+          fullName: window.sessionStorage.getItem("fullName"),
+          _id: window.sessionStorage.getItem("_id")
         })
       })
         .then(res => {
@@ -67,14 +81,6 @@ class App extends React.Component {
       });
     }
   }
-  state = {
-    active: "",
-    currentUser: {
-      email: "",
-      fullName: "",
-      _id: ""
-    }
-  };
 
   Logout() {
     fetch("http://localhost:3001/users/logout", {
@@ -90,6 +96,8 @@ class App extends React.Component {
           window.localStorage.removeItem("email");
           window.localStorage.removeItem("fullName");
           window.localStorage.removeItem("_id");
+          window.localStorage.removeItem("avatar");
+          window.sessionStorage.clear();
           message.success(data.message);
         }
         //console.log(data);
@@ -130,7 +138,7 @@ class App extends React.Component {
             <ul className="navbar-nav mr-auto">
               <li
                 className={
-                  this.state.active === "" ? "nav-item active" : "nav-item "
+                  this.state.active == "" ? "nav-item active" : "nav-item "
                 }
               >
                 <a className="nav-link" href="/">
@@ -192,7 +200,16 @@ class App extends React.Component {
                     }
                   >
                     <a className="ant-dropdown-link" href="#">
-                      Welcome {this.state.currentUser.fullName},
+                      Welcome {window.sessionStorage.getItem("fullName")}
+                      {window.sessionStorage.avatar ? (
+                        <Avatar
+                          src={window.sessionStorage.avatar}
+                          className="ml-1 mb-1"
+                          style={{ backgroundColor: "white", fontSize: "16px" }}
+                        ></Avatar>
+                      ) : (
+                        <Avatar icon="user" size="large" className="ml-1" />
+                      )}
                       <Icon
                         type="down"
                         className="ml-1"
@@ -201,6 +218,7 @@ class App extends React.Component {
                     </a>
                   </Dropdown>
                 </li>
+                <ul className="navbar-nav mr-auto"></ul>
               </ul>
             ) : (
               <ul className="navbar-nav mr-auto">
@@ -228,6 +246,36 @@ class App extends React.Component {
                 </li>
               </ul>
             )}
+            <ul className="navbar-nav mr-auto ml-4">
+              <li>
+                <a href="/search">
+                  <Icon
+                    type="search"
+                    style={{
+                      color: "#262626",
+                      backgroundColor: "white",
+                      borderRadius: "50%",
+                      padding: "2.5px"
+                    }}
+                    className="search"
+                  />
+                </a>
+              </li>
+              <li className="ml-2">
+                <a href="#footer">
+                  <Icon
+                    type="phone"
+                    theme="filled"
+                    style={{
+                      color: "#262626",
+                      backgroundColor: "white",
+                      borderRadius: "50%",
+                      padding: "2.5px"
+                    }}
+                  />
+                </a>
+              </li>
+            </ul>
           </div>
         </nav>
         <div className="content">
@@ -242,38 +290,65 @@ class App extends React.Component {
               exact={true}
               component={RegisterScreen}
             ></Route>
+            <Route path="/search/" component={SearchScreen}></Route>
           </BrowserRouter>
         </div>
-        {/*<div className=" font-small  footer color">
-          <div className="container-fluid text-center text-md-left">
-            <div className="row">
-              <div className="col-md-6 mt-md-0 pt-3 pl-5 footer-b color">
-                <h5 className="text-uppercase font-weight-bold">About Us</h5>
-                <p className="small-text ">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Expedita sapiente sint, nulla, nihil repudiandae commodi
-                  voluptatibus corrupti animi sequi aliquid magnam debitis,
-                  maxime quam recusandae harum esse fugiat. Itaque, culpa?
+        <div
+          className="footer sticky-bottom"
+          id="footer"
+          style={{ float: "bottom" }}
+        >
+          <footer className="footer-distributed">
+            <div className="footer-left">
+              <h3>
+                Company<span>logo</span>
+              </h3>
+              <p className="footer-links"></p>
+              <p className="footer-company-name">Company Name &copy; 2015</p>
+            </div>
+            <div className="footer-center">
+              <div>
+                <i className="fa fa-map-marker"></i>
+                <p>
+                  <span>21 Revolution Street</span> Paris, France
                 </p>
               </div>
-
-              <div className="col-md-6 mb-md-0 pt-3 pl-5 footer-a color">
-                <h5 className="text-uppercase font-weight-bold ">
-                  Contact Us:
-                </h5>
-                <p className="small-text ">
-                  Email: mindx-fitness@gmail.com
-                  <br />
-                  Phone Number: 0123456789
+              <div>
+                <i className="fa fa-phone"></i>
+                <p>+1 555 123456</p>
+              </div>
+              <div>
+                <i className="fa fa-envelope"></i>
+                <p>
+                  <a href="mailto:support@company.com">support@company.com</a>
                 </p>
               </div>
             </div>
-          </div>
-
-          <div className="footer-copyright text-center py-3 color">
-            © 2019 Copyright: Mindx-Fitness.com
-          </div>
-                </div>*/}
+            <div className="footer-right">
+              <p className="footer-company-about">
+                <span>About the company</span>
+                Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce
+                euismod convallis velit, eu auctor lacus vehicula sit amet.
+              </p>
+              <div className="footer-icons">
+                <a href="#">
+                  <i className="fa fa-facebook">
+                    <i type="facebook" />
+                  </i>
+                </a>
+                <a href="#">
+                  <i className="fa fa-twitter"></i>
+                </a>
+                <a href="#">
+                  <i className="fa fa-linkedin"></i>
+                </a>
+                <a href="#">
+                  <i className="fa fa-github"></i>
+                </a>
+              </div>
+            </div>
+          </footer>
+        </div>
       </div>
     );
   }

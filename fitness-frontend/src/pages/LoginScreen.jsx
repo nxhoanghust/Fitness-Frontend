@@ -41,7 +41,12 @@ class NornamlForm extends React.Component {
                 window.localStorage.setItem("email", data.data.email);
                 window.localStorage.setItem("fullName", data.data.fullName);
                 window.localStorage.setItem("_id", data.data._id);
+                window.localStorage.setItem("avatar", data.data.avatar);
               }
+              window.sessionStorage.setItem("email", data.data.email);
+              window.sessionStorage.setItem("fullName", data.data.fullName);
+              window.sessionStorage.setItem("_id", data.data._id);
+              window.sessionStorage.setItem("avatar", data.data.avatar);
               window.location.href = "/";
             }
           })

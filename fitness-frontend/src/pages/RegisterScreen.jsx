@@ -18,6 +18,7 @@ import {
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
+const phoneRegex = /^0(1\d{9}|9\d{8})$/;
 
 const residences = [
   {
@@ -43,7 +44,7 @@ class RegiterForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      var phoneNumber = "0" + values.phone;
+      var phoneNumber = values.phone;
       //console.log(values);
       if (err) {
         message.err(err);
@@ -118,7 +119,12 @@ class RegiterForm extends React.Component {
     }
     this.setState({ autoCompleteResult });
   };
-
+  validatePhone = (rule, value, callback) => {
+    if (!phoneRegex.test(value)) {
+      callback("Invalid Phone Number");
+    }
+    callback();
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
@@ -228,7 +234,8 @@ class RegiterForm extends React.Component {
           <Form.Item label="Phone Number">
             {getFieldDecorator("phone", {
               rules: [
-                { required: true, message: "Please input your phone number!" }
+                { required: true, message: "Please input your phone number!" },
+                { validator: this.validatePhone }
               ]
             })(
               <Input addonBefore={prefixSelector} style={{ width: "100%" }} />

@@ -1,5 +1,6 @@
 import React from "react";
 import Moment from "react-moment";
+import _ from "lodash";
 import {
   Breadcrumb,
   Icon,
@@ -13,13 +14,16 @@ import {
   Carousel,
   Card,
   Avatar,
-  Pagination
+  Pagination,
+  AutoComplete,
+  Button
 } from "antd";
 import "./BlogScreen.css";
 import "antd/dist/antd.css";
 import { TweenOneGroup } from "rc-tween-one";
 
-const { TextArea } = Input;
+const { TextArea, Search } = Input;
+const { Option } = AutoComplete;
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -30,6 +34,56 @@ function getBase64(file) {
   });
 }
 
+function onSelect(value) {
+  console.log("onSelect", value);
+}
+
+/*function getRandomInt(max, min = 0) {
+  return Math.floor(Math.random() * (max - min + 1)) + min; // eslint-disable-line no-mixed-operators
+}
+
+function searchResult(query) {
+  return new Array(getRandomInt(5))
+    .join(".")
+    .split(".")
+    .map((item, idx) => ({
+      query,
+      category: `${query}${idx}`,
+      count: getRandomInt(200, 100)
+    }));
+}*/
+function renderOption(item) {
+  return (
+    <Option key={item._id}>
+      <a
+        className="global-search-item"
+        href={`/posts/${item._id}`}
+        style={{
+          color: "#343a40"
+        }}
+      >
+        <span className="global-search-item-desc">
+          <a
+            href={`/posts/${item._id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mr-1"
+          >
+            {item.title}
+          </a>
+          by {item.author.fullName}
+        </span>
+        <span className="global-search-item-count"></span>
+        <div>
+          <Moment fromNow ago className="mr-1">
+            {item.createAt}
+          </Moment>
+          ago
+        </div>
+      </a>
+    </Option>
+  );
+}
 function roundHalf(num) {
   return Math.round(num * 2) / 2;
 }
@@ -102,7 +156,9 @@ class BlogScreen extends React.Component {
     inputValue: "",
     title: "",
     inputVisible: false,
-    data: []
+    data: [],
+    dataSource: [],
+    notFound: false
   };
   //tags
   handleTagClose = removedTag => {
@@ -298,7 +354,39 @@ class BlogScreen extends React.Component {
         window.alert(error.message);
       });
   };
+  handleSearch = _.debounce(value => {
+    if (value !== "") {
+      fetch(`http://localhost:3001/posts/search/${value}`, { method: "GET" })
+        .then(res => {
+          return res.json();
+        })
+        .then(data => {
+          console.log(data);
+          /*this.setState({
+          dataSource: value ? searchResult(value) : []
+        });*/
+          if (data.data.length !== 0) {
+            this.setState({
+              dataSource: value ? data.data : [],
+              notFound: false
+            });
+          } else {
+            //message.warning("No post found");
+            this.setState({
+              dataSource: [],
+              notFound: false
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          window.alert(error);
+        });
+    }
+  }, 800);
+
   render() {
+    const { dataSource } = this.state;
     console.log(this.state);
     const { previewVisible, previewImage, fileList } = this.state;
     const { tags, inputVisible, inputValue } = this.state;
@@ -329,24 +417,56 @@ class BlogScreen extends React.Component {
           </Breadcrumb.Item>
         </Breadcrumb>
 
-        <div className="row ml-4 mt-3">
-          {this.state.currentUser.email ? (
-            <Row>
-              <button
-                type="button"
-                className="btn btn-outline-dark add-post "
-                onClick={this.showModal}
-                style={{
-                  width: "200px",
-                  textAlign: "center",
-                  fontWeight: "bold"
-                }}
+        <div className="row ml-4 mt-3" style={{ width: "100%" }}>
+          <Row style={{ width: "100%" }}>
+            <Col span={6}>
+              {window.sessionStorage._id && window.sessionStorage.email ? (
+                <button
+                  type="button"
+                  className="btn btn-outline-dark add-post "
+                  onClick={this.showModal}
+                  style={{
+                    width: "200px",
+                    textAlign: "center",
+                    fontWeight: "bold"
+                  }}
+                >
+                  <Icon type="plus" style={{ fontSize: 14 }} />
+                  New Post
+                </button>
+              ) : null}
+            </Col>
+            <Col span={7} style={{ float: "right" }}>
+              <div
+                className="global-search-wrapper"
+                style={{ width: 400, marginLeft: "89px" }}
               >
-                <Icon type="plus" style={{ fontSize: 14 }} />
-                New Post
-              </button>
-            </Row>
-          ) : null}
+                <AutoComplete
+                  className="global-search"
+                  size="large"
+                  style={{ width: "100%" }}
+                  dataSource={dataSource.map(renderOption)}
+                  onSelect={onSelect}
+                  onSearch={this.handleSearch}
+                  placeholder="Search here"
+                  optionLabelProp="text"
+                >
+                  <Input
+                    suffix={
+                      <Button
+                        className="search-btn"
+                        style={{ marginRight: -12 }}
+                        size="large"
+                        type="primary"
+                      >
+                        <Icon type="search" />
+                      </Button>
+                    }
+                  />
+                </AutoComplete>
+              </div>
+            </Col>
+          </Row>
           <Modal
             title="Basic Modal"
             visible={this.state.visible}
@@ -359,6 +479,7 @@ class BlogScreen extends React.Component {
                 placeholder="Title"
                 value={this.state.title}
                 onChange={this.handleTitleChange}
+                maxLength={10}
               ></Input>
               <h3 className="modal-upload">Content:</h3>
               <TextArea
@@ -428,7 +549,7 @@ class BlogScreen extends React.Component {
           </Modal>
         </div>
         <Row>
-          <Col span={16} className="post">
+          <Col span={18} className="post">
             {this.state.data
               ? this.state.data.map(i => {
                   if (i.content.length > 600) {
@@ -452,7 +573,27 @@ class BlogScreen extends React.Component {
                                   className="underline"
                                 >
                                   Author: {i.author.fullName}
-                                  <Avatar icon="user" className="ml-1" />
+                                  {i.author.avatar ? (
+                                    <Avatar
+                                      size="large"
+                                      src={i.author.avatar}
+                                      className="mb-2 ml-2 border-bl"
+                                      style={{
+                                        borderWidth: "1px",
+                                        borderStyle: "solid"
+                                      }}
+                                    ></Avatar>
+                                  ) : (
+                                    <Avatar
+                                      icon="user"
+                                      size="large"
+                                      className="ml-2 "
+                                      style={{
+                                        borderWidth: "1px",
+                                        borderStyle: "solid"
+                                      }}
+                                    />
+                                  )}
                                 </a>
                               }
                               actions={[
@@ -487,7 +628,11 @@ class BlogScreen extends React.Component {
                                 <img
                                   src={i.srcUrl[0]}
                                   className="center"
-                                  style={{ width: "765px", height: "400px" }}
+                                  style={{
+                                    width: "76%",
+                                    height: "98%",
+                                    objectFit: "cover"
+                                  }}
                                 ></img>
                               ) : (
                                 <Carousel
@@ -496,7 +641,8 @@ class BlogScreen extends React.Component {
                                   style={{
                                     width: "76%",
                                     height: "98%",
-                                    float: "center"
+                                    float: "center",
+                                    objectFit: "cover"
                                   }}
                                   className="center"
                                 >
@@ -507,9 +653,12 @@ class BlogScreen extends React.Component {
                                         <img
                                           src={item}
                                           style={{
-                                            width: "765px",
-                                            height: "400px"
+                                            width: "76%",
+                                            height: "98%",
+                                            float: "center",
+                                            objectFit: "cover"
                                           }}
+                                          className="center"
                                         ></img>
                                       </div>
                                     );
@@ -519,6 +668,13 @@ class BlogScreen extends React.Component {
                               <div className="mt-2 content-box">
                                 {contentReg}
                               </div>
+                              {i.tag.map((item, index) => {
+                                return (
+                                  <Tag className="mt-3" key={index}>
+                                    <a href={"/search/" + item}>{item}</a>
+                                  </Tag>
+                                );
+                              })}{" "}
                             </Card>
                           </a>
                         </Col>
@@ -528,22 +684,60 @@ class BlogScreen extends React.Component {
                 })
               : null}
           </Col>
-          <Col span={4} style={{ float: "right" }} className="mr-5">
+          <Col span={4} style={{ float: "right" }} className="mr-5 mt-3">
             <div className="btn-group-vertical" style={{ width: "100%" }}>
               <button type="button" className="btn btn-secondary button-group">
                 Categories:
               </button>
-              <button type="button" className="btn btn-secondary button-group">
+              <button
+                type="button"
+                className="btn btn-secondary button-group"
+                onClick={e => {
+                  e.preventDefault();
+                  window.location.href = "/search/Boxing";
+                }}
+              >
                 Boxing
               </button>
-              <button type="button" className="btn btn-secondary button-group">
+              <button
+                type="button"
+                className="btn btn-secondary button-group"
+                onClick={e => {
+                  e.preventDefault();
+                  window.location.href = "/search/Yoga";
+                }}
+              >
                 Yoga
               </button>
-              <button type="button" className="btn btn-secondary button-group">
+              <button
+                type="button"
+                className="btn btn-secondary button-group"
+                onClick={e => {
+                  e.preventDefault();
+                  window.location.href = "/search/Diet";
+                }}
+              >
                 Diet
               </button>
-              <button type="button" className="btn btn-secondary button-group">
+              <button
+                type="button"
+                className="btn btn-secondary button-group"
+                onClick={e => {
+                  e.preventDefault();
+                  window.location.href = "/search/Street-Workout";
+                }}
+              >
                 Street Workout
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary button-group"
+                onClick={e => {
+                  e.preventDefault();
+                  window.location.href = "/search/Gym";
+                }}
+              >
+                Gym
               </button>
             </div>
           </Col>

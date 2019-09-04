@@ -5,3 +5,7 @@
   display: block;
   margin: 0 auto;
 }
+h1 {
+  font-size: 30px !important;
+  font-weight: bold !important;
+}

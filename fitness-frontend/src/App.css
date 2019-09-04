@@ -23,9 +23,6 @@
   color: #fff;
   padding-left: 0px !important;
 }
-.footer-a {
-  padding-left: 100px !important ;
-}
 
 * {
   font-family: "Titillium Web", sans-serif;
@@ -44,16 +41,18 @@
   font-size: 16px;
 }
 
-.footer {
-  width: 106%;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  text-align: center;
-  margin-top: 1rem;
-}
 #container {
   min-height: 100%;
   position: relative;
+}
+
+.search {
+  font-size: 14px !important;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+#footer {
+  float: bottom !important;
 }
