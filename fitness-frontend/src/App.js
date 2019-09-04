@@ -9,6 +9,7 @@ import { Menu, Dropdown, Icon, message, Layout, Avatar } from "antd";
 import CommentSreen from "./pages/CommentScreen";
 import ProfileScreen from "./pages/ProfileScreen";
 import SearchScreen from "./pages/SearchScreen";
+import FindSpaceScreen from "./pages/FindSpaceScreen";
 
 const { Footer } = Layout;
 class App extends React.Component {
@@ -115,7 +116,7 @@ class App extends React.Component {
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="ml-4">
             <a className="navbar-brand" href="/">
-              Keep Fit
+              Mindx-Fitness
             </a>
           </div>
 
@@ -158,13 +159,13 @@ class App extends React.Component {
               </li>
               <li
                 className={
-                  this.state.active === "about"
+                  this.state.active === "find"
                     ? "nav-item active"
                     : "nav-item "
                 }
               >
-                <a className="nav-link" href="/" value="about">
-                  About
+                <a className="nav-link" href="/find" value="find">
+                  Find
                 </a>
               </li>
             </ul>
@@ -283,6 +284,7 @@ class App extends React.Component {
             <Route path="/" exact={true} component={HomePageScreen}></Route>
             <Route path="/blogs" exact={true} component={BlogScreen}></Route>
             <Route path="/login" exact={true} component={LoginScreen}></Route>
+            <Route path="/find" exact={true} component={FindSpaceScreen}></Route>
             <Route path="/posts/" component={CommentSreen}></Route>
             <Route path="/users/" component={ProfileScreen}></Route>
             <Route
