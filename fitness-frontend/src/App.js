@@ -159,9 +159,7 @@ class App extends React.Component {
               </li>
               <li
                 className={
-                  this.state.active === "find"
-                    ? "nav-item active"
-                    : "nav-item "
+                  this.state.active === "find" ? "nav-item active" : "nav-item "
                 }
               >
                 <a className="nav-link" href="/find" value="find">
@@ -284,7 +282,11 @@ class App extends React.Component {
             <Route path="/" exact={true} component={HomePageScreen}></Route>
             <Route path="/blogs" exact={true} component={BlogScreen}></Route>
             <Route path="/login" exact={true} component={LoginScreen}></Route>
-            <Route path="/find" exact={true} component={FindSpaceScreen}></Route>
+            <Route
+              path="/find"
+              exact={true}
+              component={FindSpaceScreen}
+            ></Route>
             <Route path="/posts/" component={CommentSreen}></Route>
             <Route path="/users/" component={ProfileScreen}></Route>
             <Route
