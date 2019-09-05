@@ -10,7 +10,7 @@ import CommentSreen from "./pages/CommentScreen";
 import ProfileScreen from "./pages/ProfileScreen";
 import SearchScreen from "./pages/SearchScreen";
 import FindSpaceScreen from "./pages/FindSpaceScreen";
-
+import logo from "./img/logo_transparent.png";
 const { Footer } = Layout;
 class App extends React.Component {
   state = {
@@ -113,10 +113,13 @@ class App extends React.Component {
     console.log(this.state);
     return (
       <div id="container">
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav
+          className="navbar navbar-expand-lg navbar-dark bg-dark"
+          style={{ height: "8.5%" }}
+        >
           <div className="ml-4">
             <a className="navbar-brand" href="/">
-              Mindx-Fitness
+              <img src={logo} style={{ width: "15%" }} className="mt-1"></img>
             </a>
           </div>
 
