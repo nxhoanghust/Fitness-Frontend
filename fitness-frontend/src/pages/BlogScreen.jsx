@@ -439,7 +439,7 @@ class BlogScreen extends React.Component {
             <Col span={7} style={{ float: "right" }}>
               <div
                 className="global-search-wrapper"
-                style={{ width: 400, marginLeft: "89px" }}
+                style={{ width: 400, marginLeft: "89px", fontSize: "18px" }}
               >
                 <AutoComplete
                   className="global-search"
@@ -452,6 +452,8 @@ class BlogScreen extends React.Component {
                   optionLabelProp="text"
                 >
                   <Input
+                    size="default"
+                    style={{ fontSize: "18px" }}
                     suffix={
                       <Button
                         className="search-btn"
@@ -561,7 +563,10 @@ class BlogScreen extends React.Component {
                     <div style={{ background: "#ECECEC", padding: "30px" }}>
                       <Row gutter={24}>
                         <Col span={24}>
-                          <a href={"/posts/" + i._id}>
+                          <a
+                            href={"/posts/" + i._id}
+                            style={{ height: "40vh" }}
+                          >
                             <Card
                               className="post-h"
                               title={<a className="caption">{i.title}</a>}

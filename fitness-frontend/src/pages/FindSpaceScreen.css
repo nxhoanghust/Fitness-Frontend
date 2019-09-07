@@ -1,4 +1,16 @@
 /* For demo */
-#button .button1 {
+.button1 {
   margin-left: 17%;
+}
+
+.note {
+  color: #ff4136;
+  font-weight: bold;
+}
+.bg-0 {
+  background-color: whitesmoke !important;
+}
+.ant-list-item {
+  padding-right: 2%;
+  padding-left: 2%;
 }
