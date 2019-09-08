@@ -1,79 +1,83 @@
 import React from "react";
-import { Modal, Button, Form, Row, Col, Input, Icon, InputNumber } from "antd";
+import {
+  Modal,
+  Button,
+  Form,
+  Row,
+  Col,
+  Input,
+  Tooltip,
+  Icon,
+  Statistic,
+  Card,
+  InputNumber,
+  Select
+} from "antd";
+import "./StatisticScreen.css";
+import "antd/dist/antd.css";
+const { Option } = Select;
 
-class AdvancedSearchForm extends React.Component {
-  state = {
-    expand: false
-  };
-
-  // To generate mock Form.Item
-  getFields() {
-    const array = [
-      "Thứ 2",
-      "Thứ 3",
-      "Thứ 4",
-      "Thứ 5",
-      "Thứ 6",
-      "Thứ 7",
-      "Chủ Nhật"
-    ];
-    const count = this.state.expand ? 10 : 6;
-    const { getFieldDecorator } = this.props.form;
-    const children = [];
-    for (let i = 0; i < 7; i++) {
-      children.push(
-        <Col span={8} key={i} style={{ display: i < count ? "block" : "none" }}>
-          <Form.Item label={array[i]}>
-            {getFieldDecorator(`${array[i]}`, {
-              rules: [
-                {
-                  required: true,
-                  message: "Input something!"
-                }
-              ]
-            })(<Input type="Number" placeholder="Input weight" />)}
-          </Form.Item>
-        </Col>
-      );
-    }
-    return children;
+const tabListNoTitle = [
+  {
+    key: "BMI",
+    tab: "Chỉ số sức khỏe BMI"
+  },
+  {
+    key: "WHR",
+    tab: "Tỷ lệ vòng eo/mông"
   }
+];
 
-  handleSearch = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      console.log("Received values of form: ", values);
-    });
-  };
+/*function computeBMI() {
+  //Obtain user inputs
+  var height = Number(document.getElementById("height").value);
+  var heightunits = document.getElementById("heightunits").value;
+  var weight = Number(document.getElementById("weight").value);
+  var weightunits = document.getElementById("weightunits").value;
 
-  handleReset = () => {
-    this.props.form.resetFields();
-  };
+  //Convert all units to metric
+  if (heightunits == "inches") height /= 39.3700787;
+  if (weightunits == "lb") weight /= 2.20462;
 
-  toggle = () => {
-    const { expand } = this.state;
-    this.setState({ expand: !expand });
-  };
+  //Perform calculation
+  var BMI = weight / Math.pow(height, 2);
 
-  render() {
-    return (
-      <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
-        <Row gutter={24}>{this.getFields()}</Row>
-        <Row>
-          <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggle}>
-            Collapse <Icon type={this.state.expand ? "up" : "down"} />
-          </a>
-        </Row>
-      </Form>
-    );
-  }
-}
+  //Display result of calculation
+  document.getElementById("output").innerText = Math.round(BMI * 100) / 100;
 
-const WrappedAdvancedSearchForm = Form.create({ name: "advanced_search" })(
-  AdvancedSearchForm
-);
+  if (output < 18.5) document.getElementById("comment").value = "Underweight";
+  if (output >= 18.5 && output <= 25)
+    document.getElementById("comment").value = "Normal";
+  if (output >= 25 && output <= 30)
+    document.getElementById("comment").value = "Obese";
+  if (output > 30) document.getElementById("comment").value = "Overweight";
+  document.getElementById("answer").value = output;
+}*/
+const contentListNoTitle = {
+  BMI: (
+    <div>
+      <h2>Công thức: BMI = Cân nặng/ [(Chiều cao)^2]</h2>
+      <p></p>
+    </div>
+  ),
+  WHR: <p>app content</p>
+};
+
 class StatisticScreen extends React.Component {
-  state = { visible: false };
+  onTabChange = (key, type) => {
+    console.log(key, type);
+    this.setState({ [type]: key });
+  };
+  state = {
+    visible: false,
+    noTitleKey: "BMI",
+    unitW: "kg",
+    unitH: "cm",
+    weight: "",
+    height: "",
+    hips: "",
+    waist: ""
+  };
 
   showModal = () => {
     this.setState({
@@ -94,22 +98,154 @@ class StatisticScreen extends React.Component {
       visible: false
     });
   };
-
+  handleChangeUnit1 = value => {
+    this.setState({
+      unitW: value
+    });
+  };
+  handleChangeUnit1 = value => {
+    this.setState({
+      unitW: value
+    });
+  };
+  handleChangeWeight = value => {
+    this.setState({
+      weight: value
+    });
+  };
+  handleChangeHeight = value => {
+    this.setState({
+      height: value
+    });
+  };
+  handleChangeHips = value => {
+    this.setState({
+      hips: value
+    });
+  };
+  handleChangeUnit2 = value => {
+    this.setState({
+      unitH: value
+    });
+  };
+  handleChangeWaist = value => {
+    this.setState({
+      waist: value
+    });
+  };
   render() {
+    console.log(this.state);
     return (
-      <div className="container">
-        <Button type="primary" onClick={this.showModal}>
-          Open Modal
+      <div className="container mt-5">
+        <Button
+          type="primary mt-5"
+          onClick={this.showModal}
+          style={{ height: "50px" }}
+        >
+          <Icon type="database" />
+          Nhập chỉ số cơ thể
         </Button>
         <Modal
-          title="Basic Modal"
+          title="Chỉ số cơ thể"
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
-          width="70%"
+          width="33%"
         >
-          <WrappedAdvancedSearchForm />
+          <div className="mr-4">
+            <p
+              style={{
+                display: "inline-block",
+                width: "35%"
+              }}
+              className="mr-3"
+            >
+              Cân nặng:
+            </p>
+            <InputNumber
+              style={{ width: "25%", marginRight: "2%" }}
+              onChange={this.handleChangeWeight}
+            ></InputNumber>
+            <Select
+              value={this.state.unitW}
+              style={{ width: "15%" }}
+              onChange={this.handleChangeUnit1}
+            >
+              <Option value="kg">Kg</Option>
+              <Option value="lb">Lb</Option>
+            </Select>
+          </div>
+          <div className="mr-4">
+            <p
+              style={{
+                display: "inline-block",
+                width: "35%"
+              }}
+              className="mr-3"
+            >
+              Chiều cao:
+            </p>
+            <InputNumber
+              style={{ width: "25%", marginRight: "2%" }}
+              onChange={this.handleChangeHeight}
+            ></InputNumber>
+            <Select
+              value={this.state.unitH}
+              style={{ width: "15%" }}
+              onChange={this.handleChangeUnit2}
+            >
+              <Option value="cm">cm</Option>
+              <Option value="inches">In</Option>
+            </Select>
+          </div>
+          <div className="mr-4">
+            <p
+              style={{
+                display: "inline-block",
+                width: "35%"
+              }}
+              className="mr-3"
+            >
+              Vòng eo:
+            </p>
+            <InputNumber
+              style={{ width: "25%", marginRight: "2%" }}
+              onChange={this.handleChangeWaist}
+            ></InputNumber>
+            <span className="ml-2">cm</span>
+          </div>
+          <div className="mr-4">
+            <p
+              style={{
+                display: "inline-block",
+                width: "35%"
+              }}
+              className="mr-3"
+            >
+              Vòng hông:
+            </p>
+            <InputNumber
+              style={{ width: "25%", marginRight: "2%" }}
+              onChange={this.handleChangeHips}
+            ></InputNumber>
+            <span className="ml-2">cm</span>
+          </div>
         </Modal>
+        <div>
+          <br />
+          <br />
+          <Card
+            style={{ width: "100%" }}
+            tabList={tabListNoTitle}
+            activeTabKey={this.state.noTitleKey}
+            tabBarExtraContent={<a href="#">More</a>}
+            onTabChange={key => {
+              this.onTabChange(key, "noTitleKey");
+            }}
+          >
+            {contentListNoTitle[this.state.noTitleKey]}
+          </Card>
+        </div>
       </div>
     );
   }

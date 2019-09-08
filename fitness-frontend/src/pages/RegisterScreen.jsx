@@ -10,6 +10,7 @@ import {
   Cascader,
   Select,
   Row,
+  Radio,
   Col,
   Checkbox,
   Button,
@@ -44,11 +45,12 @@ class RegiterForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(values);
       var phoneNumber = values.phone;
       //console.log(values);
       if (err) {
         message.err(err);
-      } else if (values.agreement === undefined) {
+      } else if (values.agreement === undefined || values.agreement === false) {
         message.warning("Please read the Agreement");
       } else {
         fetch("http://localhost:3001/users/register", {
@@ -61,7 +63,8 @@ class RegiterForm extends React.Component {
             password: values.password,
             fullName: values.fullname,
             phoneNumber: phoneNumber,
-            address: values.residence[0]
+            address: values.residence[0],
+            gender: values.gender
           })
         })
           .then(res => {
@@ -218,6 +221,21 @@ class RegiterForm extends React.Component {
                 }
               ]
             })(<Input />)}
+          </Form.Item>
+          <Form.Item label="gender">
+            {getFieldDecorator("gender", {
+              rules: [
+                {
+                  required: true,
+                  message: "Please choose your gender!"
+                }
+              ]
+            })(
+              <Radio.Group name="radiogroup">
+                <Radio value={"male"}>Male</Radio>
+                <Radio value={"female"}>Female</Radio>
+              </Radio.Group>
+            )}
           </Form.Item>
           <Form.Item label="Address">
             {getFieldDecorator("residence", {

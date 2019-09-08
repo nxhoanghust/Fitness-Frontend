@@ -286,7 +286,7 @@ class App extends React.Component {
                       </Menu>
                     }
                   >
-                    <a className="ant-dropdown-link" href="#">
+                    <a className="ant-dropdown-link mt-1" href="#">
                       Welcome {window.sessionStorage.getItem("fullName")}
                       {window.sessionStorage.avatar ? (
                         <Avatar
