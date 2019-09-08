@@ -14,13 +14,13 @@
 .button-group {
   width: 100%;
   display: block;
-  background-color: #ff4b42 !important;
+  background-color: #364d79 !important;
   font-weight: bold !important;
   font-size: 19px !important;
-  border-color: rgb(250, 25, 25) !important;
+  border-color: #182236 !important;
 }
 .button-group:hover {
-  background-color: rgb(250, 25, 25) !important;
+  background-color: #5882d6 !important;
 }
 .add-post {
   display: block !important;

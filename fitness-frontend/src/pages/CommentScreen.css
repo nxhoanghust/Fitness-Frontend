@@ -8,7 +8,7 @@
 }
 .button-group {
   text-align: left !important;
-  font-family: "Roboto Mono", monospace;
+  font-weight: 500!important;
 }
 
 .bg-content {

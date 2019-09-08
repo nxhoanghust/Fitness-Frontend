@@ -5,15 +5,69 @@ import HomePageScreen from "./pages/HomePageScreen";
 import BlogScreen from "./pages/BlogScreen";
 import "./App.css";
 import RegisterScreen from "./pages/RegisterScreen";
-import { Menu, Dropdown, Icon, message, Layout, Avatar } from "antd";
+import Moment from "react-moment";
+import _ from "lodash";
+import {
+  Menu,
+  Dropdown,
+  Icon,
+  message,
+  Layout,
+  Avatar,
+  Button,
+  AutoComplete,
+  Input,
+  Popover
+} from "antd";
 import CommentSreen from "./pages/CommentScreen";
 import ProfileScreen from "./pages/ProfileScreen";
 import SearchScreen from "./pages/SearchScreen";
 import FindSpaceScreen from "./pages/FindSpaceScreen";
 import logo from "./img/logo_transparent.png";
+import StatisticScreen from "./pages/StatisticScreen";
 const { Footer } = Layout;
+const { TextArea, Search } = Input;
+const { Option } = AutoComplete;
+
+function renderOption(item) {
+  return (
+    <Option key={item._id}>
+      <a
+        className="global-search-item"
+        href={`/posts/${item._id}`}
+        style={{
+          color: "#343a40"
+        }}
+      >
+        <span className="global-search-item-desc">
+          <a
+            href={`/posts/${item._id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mr-1"
+          >
+            {item.title}
+          </a>
+          by {item.author.fullName}
+        </span>
+        <span className="global-search-item-count"></span>
+        <div>
+          <Moment fromNow ago className="mr-1">
+            {item.createAt}
+          </Moment>
+          ago
+        </div>
+      </a>
+    </Option>
+  );
+}
+function onSelect(value) {
+  console.log("onSelect", value);
+}
+
 class App extends React.Component {
   state = {
+    dataSource: [],
     active: "",
     currentUser: {
       email: "",
@@ -109,8 +163,39 @@ class App extends React.Component {
         window.alert(error.message);
       });
   }
+  handleSearch = _.debounce(value => {
+    if (value !== "") {
+      fetch(`http://localhost:3001/posts/search/${value}`, { method: "GET" })
+        .then(res => {
+          return res.json();
+        })
+        .then(data => {
+          console.log(data);
+          /*this.setState({
+          dataSource: value ? searchResult(value) : []
+        });*/
+          if (data.data.length !== 0) {
+            this.setState({
+              dataSource: value ? data.data : [],
+              notFound: false
+            });
+          } else {
+            //message.warning("No post found");
+            this.setState({
+              dataSource: [],
+              notFound: false
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          window.alert(error);
+        });
+    }
+  }, 800);
   render() {
     console.log(this.state);
+    const { dataSource } = this.state;
     return (
       <div id="container">
         <nav
@@ -251,7 +336,7 @@ class App extends React.Component {
             <ul className="navbar-nav mr-auto ml-4">
               <li>
                 <a href="/search">
-                  <Icon
+                    <Icon
                     type="search"
                     style={{
                       color: "#262626",
@@ -298,6 +383,7 @@ class App extends React.Component {
               component={RegisterScreen}
             ></Route>
             <Route path="/search/" component={SearchScreen}></Route>
+            <Route path="/statistic" component={StatisticScreen}></Route>
           </BrowserRouter>
         </div>
         <div

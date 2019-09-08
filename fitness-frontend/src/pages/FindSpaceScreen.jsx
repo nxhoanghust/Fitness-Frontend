@@ -2,8 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "antd/dist/antd.css";
 import "./FindSpaceScreen.css";
-import reqwest from "reqwest";
-import InfiniteScroll from "react-infinite-scroller";
 
 import {
   Carousel,
@@ -253,33 +251,33 @@ class FindSpaceScreen extends React.Component {
                     Found
                     <span
                       style={{ color: "#ff4136", fontWeight: "bold" }}
-                      className="mr-1"
+                      className="mr-1 ml-1"
                     >
                       {this.state.name.length}
                     </span>
                     results ...
+                    <List
+                      loading={this.state.loading}
+                      className="list"
+                      style={{ fontSize: "14px" }}
+                      itemLayout="horizo  ntal"
+                      dataSource={this.state.nameSearch}
+                      renderItem={(item, index) => (
+                        <List.Item key={index} className={"bg-" + (index % 2)}>
+                          <List.Item.Meta
+                            title={
+                              <a href="/" style={{ fontWeight: "bold" }}>
+                                {this.state.name[item]}
+                              </a>
+                            }
+                            description={this.state.address[item]}
+                          />
+                          <div>{this.state.type[item]}</div>
+                        </List.Item>
+                      )}
+                    />
                   </div>
                 ) : null}
-                <List
-                  loading={this.state.loading}
-                  className="list"
-                  style={{ fontSize: "14px" }}
-                  itemLayout="horizo  ntal"
-                  dataSource={this.state.nameSearch}
-                  renderItem={(item, index) => (
-                    <List.Item key={index} className={"bg-" + (index % 2)}>
-                      <List.Item.Meta
-                        title={
-                          <a href="/" style={{ fontWeight: "bold" }}>
-                            {this.state.name[item]}
-                          </a>
-                        }
-                        description={this.state.address[item]}
-                      />
-                      <div>{this.state.type[item]}</div>
-                    </List.Item>
-                  )}
-                />
               </div>
             ) : (
               <Empty className="mt-5" description="No result found" />
@@ -291,33 +289,33 @@ class FindSpaceScreen extends React.Component {
                   Found
                   <span
                     style={{ color: "#ff4136", fontWeight: "bold" }}
-                    className="mr-1"
+                    className="mr-1 ml-1"
                   >
                     {this.state.name.length}
                   </span>
                   results ...
+                  <List
+                    loading={this.state.loading}
+                    className="list"
+                    style={{ fontSize: "14px" }}
+                    itemLayout="horizontal"
+                    dataSource={this.state.name}
+                    renderItem={(item, index) => (
+                      <List.Item key={index} className={"bg-" + (index % 2)}>
+                        <List.Item.Meta
+                          title={
+                            <a href="/" style={{ fontWeight: "bold" }}>
+                              {item}
+                            </a>
+                          }
+                          description={this.state.address[index]}
+                        />
+                        <div>{this.state.type[index]}</div>
+                      </List.Item>
+                    )}
+                  />
                 </div>
               ) : null}
-              <List
-                loading={this.state.loading}
-                className="list"
-                style={{ fontSize: "14px" }}
-                itemLayout="horizontal"
-                dataSource={this.state.name}
-                renderItem={(item, index) => (
-                  <List.Item key={index} className={"bg-" + (index % 2)}>
-                    <List.Item.Meta
-                      title={
-                        <a href="/" style={{ fontWeight: "bold" }}>
-                          {item}
-                        </a>
-                      }
-                      description={this.state.address[index]}
-                    />
-                    <div>{this.state.type[index]}</div>
-                  </List.Item>
-                )}
-              />
             </div>
           )}
         </div>

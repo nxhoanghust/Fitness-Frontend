@@ -333,9 +333,11 @@ class CommentSreen extends React.Component {
                 {this.state.vote ? (
                   <div>
                     Average Rate :
-                    {(
-                      this.state.data.voteAvg / this.state.data.commentNumber
-                    ).toFixed(2)}
+                    {" " +
+                      (
+                        this.state.data.voteAvg / this.state.data.commentNumber
+                      ).toFixed(1) +
+                      " "}
                     stars
                     <Rate
                       disabled
@@ -343,7 +345,7 @@ class CommentSreen extends React.Component {
                       defaultValue={
                         this.state.data.vote ? this.state.data.vote : null
                       }
-                      className="ml-2"
+                      className="ml-2 pb-5"
                     ></Rate>
                   </div>
                 ) : null}

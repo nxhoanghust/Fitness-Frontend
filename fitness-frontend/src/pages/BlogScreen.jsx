@@ -679,7 +679,7 @@ class BlogScreen extends React.Component {
                                     <a href={"/search/" + item}>{item}</a>
                                   </Tag>
                                 );
-                              })}{" "}
+                              })}
                             </Card>
                           </a>
                         </Col>
