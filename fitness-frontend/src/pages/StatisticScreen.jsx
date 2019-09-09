@@ -11,7 +11,8 @@ import {
   Statistic,
   Card,
   InputNumber,
-  Select
+  Select,
+  message
 } from "antd";
 import "./StatisticScreen.css";
 import "antd/dist/antd.css";
@@ -28,31 +29,6 @@ const tabListNoTitle = [
   }
 ];
 
-/*function computeBMI() {
-  //Obtain user inputs
-  var height = Number(document.getElementById("height").value);
-  var heightunits = document.getElementById("heightunits").value;
-  var weight = Number(document.getElementById("weight").value);
-  var weightunits = document.getElementById("weightunits").value;
-
-  //Convert all units to metric
-  if (heightunits == "inches") height /= 39.3700787;
-  if (weightunits == "lb") weight /= 2.20462;
-
-  //Perform calculation
-  var BMI = weight / Math.pow(height, 2);
-
-  //Display result of calculation
-  document.getElementById("output").innerText = Math.round(BMI * 100) / 100;
-
-  if (output < 18.5) document.getElementById("comment").value = "Underweight";
-  if (output >= 18.5 && output <= 25)
-    document.getElementById("comment").value = "Normal";
-  if (output >= 25 && output <= 30)
-    document.getElementById("comment").value = "Obese";
-  if (output > 30) document.getElementById("comment").value = "Overweight";
-  document.getElementById("answer").value = output;
-}*/
 const contentListNoTitle = {
   BMI: (
     <div>
@@ -64,6 +40,48 @@ const contentListNoTitle = {
 };
 
 class StatisticScreen extends React.Component {
+  computeBMI = () => {
+    //Obtain user inputs
+    var height = this.state.height;
+    var heightunits = this.state.unitH;
+    var weight = this.state.weight;
+    var weightunits = this.state.unitW;
+    console.log(height);
+    console.log(weight);
+    //Convert all units to metric
+    if (heightunits == "inches") height /= 39.3700787;
+    if (weightunits == "lb") weight /= 2.20462;
+
+    //Perform calculation
+    var BMI = ((weight / Math.pow(height, 2)) * 10000).toFixed(2);
+    console.log(BMI);
+    //Display result of calculation
+    this.setState({
+      BMI: BMI
+    });
+    var color = "";
+    var status = "";
+    if (BMI < 18.5) {
+      color = "#cf1322";
+      status = "Thiếu cân";
+    }
+    if (BMI >= 18.5 && BMI <= 25) {
+      color = "#3f8600";
+      status = "Bình thường";
+    }
+    if (BMI >= 25 && BMI <= 30) {
+      color = "#f0f01f";
+      status = "Thừa cân";
+    }
+    if (BMI > 30) {
+      color = "#cf1322";
+      status = "Béo phì";
+    }
+    this.setState({
+      status: status,
+      color: color
+    });
+  };
   onTabChange = (key, type) => {
     console.log(key, type);
     this.setState({ [type]: key });
@@ -76,7 +94,10 @@ class StatisticScreen extends React.Component {
     weight: "",
     height: "",
     hips: "",
-    waist: ""
+    waist: "",
+    BMI: "",
+    status: "",
+    color: ""
   };
 
   showModal = () => {
@@ -90,6 +111,36 @@ class StatisticScreen extends React.Component {
     this.setState({
       visible: false
     });
+    this.computeBMI();
+    var height = this.state.height;
+    var heightunits = this.state.unitH;
+    var weight = this.state.weight;
+    var weightunits = this.state.unitW;
+    if (heightunits == "inches") height /= 39.3700787;
+    if (weightunits == "lb") weight /= 2.20462;
+    fetch(`http://localhost:3001/users/statistic`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        weight: weight,
+        height: height,
+        waist: this.state.waist,
+        hips: this.state.hips,
+        BMI: this.state.BMI
+      })
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        message.error(error.message);
+      });
   };
 
   handleCancel = e => {
@@ -243,7 +294,28 @@ class StatisticScreen extends React.Component {
               this.onTabChange(key, "noTitleKey");
             }}
           >
-            {contentListNoTitle[this.state.noTitleKey]}
+            {
+              {
+                BMI: (
+                  <div>
+                    <h2>
+                      Chỉ số BMI của bạn:
+                      <h2
+                        className="bmi"
+                        style={{
+                          color: `${this.state.color}`,
+                          fontWeight: "bold"
+                        }}
+                      >
+                        {this.state.BMI}
+                      </h2>
+                    </h2>
+                    <p id="bmi">{this.state.status}</p>
+                  </div>
+                ),
+                WHR: <p>app content</p>
+              }[this.state.noTitleKey]
+            }
           </Card>
         </div>
       </div>

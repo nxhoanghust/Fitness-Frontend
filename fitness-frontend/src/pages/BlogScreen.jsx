@@ -481,7 +481,7 @@ class BlogScreen extends React.Component {
                 placeholder="Title"
                 value={this.state.title}
                 onChange={this.handleTitleChange}
-                maxLength={10}
+                maxLength={100}
               ></Input>
               <h3 className="modal-upload">Content:</h3>
               <TextArea
