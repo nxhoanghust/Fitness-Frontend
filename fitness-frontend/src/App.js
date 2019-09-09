@@ -123,9 +123,51 @@ class App extends React.Component {
     }
   }
   componentWillMount() {
+    const url = window.location.pathname.split("/");
     const email = window.localStorage.getItem("email");
     const fullName = window.localStorage.getItem("fullName");
     const id = window.localStorage.getItem("_id");
+    const avatar = window.localStorage.getItem("avatar");
+    this.setState({
+      active: url[1]
+    });
+    if (email && id) {
+      window.sessionStorage.setItem("email", email);
+      window.sessionStorage.setItem("fullName", fullName);
+      window.sessionStorage.setItem("_id", id);
+      window.sessionStorage.setItem("avatar", avatar);
+      fetch("http://localhost:3001/users/test", {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: window.sessionStorage.getItem("email"),
+          fullName: window.sessionStorage.getItem("fullName"),
+          _id: window.sessionStorage.getItem("_id")
+        })
+      })
+        .then(res => {
+          return res.json();
+        })
+        .then(data => {
+          console.log(data);
+          if (data.success == true) {
+            this.setState({
+              currentUser: {
+                email: data.data.email,
+                fullName: data.data.fullName,
+                _id: data.data._id
+              }
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          window.alert(error.message);
+        });
+    }
     if (email && fullName) {
       this.setState({
         currentUser: {
@@ -336,7 +378,7 @@ class App extends React.Component {
             <ul className="navbar-nav mr-auto ml-4">
               <li>
                 <a href="/search">
-                    <Icon
+                  <Icon
                     type="search"
                     style={{
                       color: "#262626",
