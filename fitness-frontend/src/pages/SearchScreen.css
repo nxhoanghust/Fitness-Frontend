@@ -8,3 +8,15 @@
   font-weight: bold;
   font-size: 25px !important;
 }
+.abc{
+  margin-top: 30px;
+  height: 75vh;
+  width: 100%;
+  background-image: url("../img/fitness8.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.abc .container{
+  margin-top: 120px;
+}

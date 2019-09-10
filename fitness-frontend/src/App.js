@@ -242,11 +242,11 @@ class App extends React.Component {
       <div id="container">
         <nav
           className="navbar navbar-expand-lg navbar-dark bg-dark"
-          style={{ height: "8.5%" }}
+          style={{ height: "10%" }}
         >
           <div className="ml-4">
             <a className="navbar-brand" href="/">
-              <img src={logo} style={{ width: "15%" }} className="mt-1"></img>
+              <img src={logo} style={{ width: "14%" }} className="mt-1"></img>
             </a>
           </div>
 
@@ -435,11 +435,8 @@ class App extends React.Component {
         >
           <footer className="footer-distributed">
             <div className="footer-left">
-              <h3>
-                Company<span>logo</span>
-              </h3>
               <p className="footer-links"></p>
-              <p className="footer-company-name">Company Name &copy; 2015</p>
+              <p className="footer-company-name">MindX_Fitness &copy; 2019</p>
             </div>
             <div className="footer-center">
               <div>
@@ -455,7 +452,7 @@ class App extends React.Component {
               <div>
                 <i className="fa fa-envelope"></i>
                 <p>
-                  <a href="mailto:support@company.com">support@company.com</a>
+                  <a href="mailto:support@company.com">MindX-Fitness@gmail.com</a>
                 </p>
               </div>
             </div>
