@@ -20,6 +20,8 @@ import {
 } from "antd";
 import "./BlogScreen.css";
 import "antd/dist/antd.css";
+import CKEditor from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { TweenOneGroup } from "rc-tween-one";
 
 const { TextArea, Search } = Input;
@@ -90,6 +92,7 @@ function roundHalf(num) {
 /*function newDate(date) {
   return date.substring(0, 10);
 }*/
+
 class BlogScreen extends React.Component {
   componentDidMount() {
     const email = window.localStorage.getItem("email");
@@ -484,12 +487,25 @@ class BlogScreen extends React.Component {
                 maxLength={100}
               ></Input>
               <h3 className="modal-upload">Content:</h3>
-              <TextArea
-                id="content"
-                rows={12}
-                placeholder="Enter your content..."
-                onChange={this.handleContentChange}
-                value={this.state.content}
+              <CKEditor
+                className="editor"
+                editor={ClassicEditor}
+                data="<p>Hello from CKEditor 5!</p>"
+              
+                onInit={editor => {
+                  // You can store the "editor" and use when it is needed.
+                  console.log("Editor is ready to use!", editor);
+                }}
+                onChange={(event, editor) => {
+                  const data = editor.getData();
+                  console.log({ event, editor, data });
+                }}
+                onBlur={(event, editor) => {
+                  console.log("Blur.", editor);
+                }}
+                onFocus={(event, editor) => {
+                  console.log("Focus.", editor);
+                }}
               />
               <h3 className="modal-upload">Picture:</h3>
             </form>

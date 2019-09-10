@@ -357,17 +357,55 @@ class CommentSreen extends React.Component {
               <button type="button" className="btn btn-secondary button-group">
                 Categories:
               </button>
-              <button type="button" className="btn btn-secondary button-group">
+              <button
+                type="button"
+                className="btn btn-secondary button-group"
+                onClick={e => {
+                  e.preventDefault();
+                  window.location.href = "/search/Boxing";
+                }}
+              >
                 Boxing
               </button>
-              <button type="button" className="btn btn-secondary button-group">
+              <button
+                type="button"
+                className="btn btn-secondary button-group"
+                onClick={e => {
+                  e.preventDefault();
+                  window.location.href = "/search/Yoga";
+                }}
+              >
                 Yoga
               </button>
-              <button type="button" className="btn btn-secondary button-group">
+              <button
+                type="button"
+                className="btn btn-secondary button-group"
+                onClick={e => {
+                  e.preventDefault();
+                  window.location.href = "/search/Diet";
+                }}
+              >
                 Diet
               </button>
-              <button type="button" className="btn btn-secondary button-group">
+              <button
+                type="button"
+                className="btn btn-secondary button-group"
+                onClick={e => {
+                  e.preventDefault();
+                  window.location.href = "/search/Street-Workout";
+                }}
+              >
                 Street Workout
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary button-group"
+                onClick={e => {
+                  e.preventDefault();
+                  window.location.href = "/search/Gym";
+                }}
+              >
+                Gym
               </button>
             </div>
             <div>
