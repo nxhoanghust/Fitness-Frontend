@@ -407,7 +407,7 @@ class App extends React.Component {
             </ul>
           </div>
         </nav>
-        <div className="content">
+        <div className="content" style={{ height: "100%" }}>
           <BrowserRouter>
             <Route path="/" exact={true} component={HomePageScreen}></Route>
             <Route path="/blogs" exact={true} component={BlogScreen}></Route>
@@ -438,21 +438,24 @@ class App extends React.Component {
               <p className="footer-links"></p>
               <p className="footer-company-name">MindX_Fitness &copy; 2019</p>
             </div>
-            <div className="footer-center">
+            <div className="footer-center ">
               <div>
                 <i className="fa fa-map-marker"></i>
                 <p>
-                  <span>21 Revolution Street</span> Paris, France
+                  <span className="fmiddle">21 Revolution Street</span> Paris,
+                  France
                 </p>
               </div>
               <div>
                 <i className="fa fa-phone"></i>
-                <p>+1 555 123456</p>
+                <p className="fmiddle">+1 555 123456</p>
               </div>
               <div>
                 <i className="fa fa-envelope"></i>
                 <p>
-                  <a href="mailto:support@company.com">MindX-Fitness@gmail.com</a>
+                  <a href="mailto:support@company.com" className="fmiddle">
+                    MindX-Fitness@gmail.com
+                  </a>
                 </p>
               </div>
             </div>
@@ -464,18 +467,16 @@ class App extends React.Component {
               </p>
               <div className="footer-icons">
                 <a href="#">
-                  <i className="fa fa-facebook">
-                    <i type="facebook" />
-                  </i>
+                  <Icon type="facebook" />
                 </a>
                 <a href="#">
-                  <i className="fa fa-twitter"></i>
+                  <Icon type="twitter" />
                 </a>
                 <a href="#">
-                  <i className="fa fa-linkedin"></i>
+                  <Icon type="linkedin" />
                 </a>
                 <a href="#">
-                  <i className="fa fa-github"></i>
+                  <Icon type="github" />
                 </a>
               </div>
             </div>

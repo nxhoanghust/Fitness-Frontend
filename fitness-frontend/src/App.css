@@ -60,6 +60,9 @@ html {
   float: bottom !important;
 }
 
+.fmiddle {
+  font-size: 16px !important;
+}
 .bmi {
   font-size: 24px !important;
 }
