@@ -21,10 +21,8 @@ class HomePageScreen extends React.Component {
                 you probably know a handful already. But if you're looking for
                 some new ideas, we've got you covered. Sure, traditional core
                 exercises, like mountain climbers, leg lifts, and planks, are
-                great. They get the job done. I, however, tend to get a little
-                bored of doing the same things over and over again. Of course,
-                consistency is a good thing, and also a great way to track your
-                progress
+                great. They get the job done. However, I tend to get a little
+                bored of doing the same things over and over again.
               </p>
             </div>
           </header>
