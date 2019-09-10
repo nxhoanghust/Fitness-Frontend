@@ -63,3 +63,10 @@ html {
 .bmi {
   font-size: 24px !important;
 }
+
+.ck.ck-icon.ck-button__icon {
+  font-size: 12px !important;
+}
+.ck.ck-toolbar {
+  height: 40%;
+}
