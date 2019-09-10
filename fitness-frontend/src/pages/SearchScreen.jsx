@@ -3,6 +3,7 @@ import _ from "lodash";
 import Moment from "react-moment";
 import "./SearchScreen.css";
 import { Input, Card, Avatar, Icon, Tag, Button, Alert } from "antd";
+import fitness8 from "../img/fitness8.jpg";
 
 const { Search } = Input;
 const url = window.location.pathname.split("/")[2];
@@ -153,11 +154,11 @@ class SearchScreen extends React.Component {
   render() {
     console.log(this.state);
     return (
-      <div className="ml-5 mr-5 " style={{ marginTop: "20vh" }}>
+      <div className="abc" style={{ marginTop: "20vh" }}>
         <div className="center">
           <Search
             className="container "
-            placeholder="input search text"
+            placeholder=" Search"
             enterButton="Search"
             value={this.state.searchKey}
             size="large"
@@ -189,109 +190,109 @@ class SearchScreen extends React.Component {
             className="mt-3 mb-3"
           ></Alert>
         ) : (
-          <div style={{ marginRight: "20vh", marginLeft: "20vh" }}>
-            {this.state.dataSource.length !== 0 ? (
-              <div className="cap">Relate Post:</div>
-            ) : null}
-            {this.state.dataSource.map(item => {
-              if (item.content.length > 300) {
-                var contentReg = item.content.substring(0, 297) + ". . .";
-              } else {
-                var contentReg = item.content;
-              }
-              return (
-                <div
-                  style={{ background: "#ECECEC", padding: "30px" }}
-                  key={item._id}
-                  className="mt-3"
-                >
-                  <a href={"/posts/" + item._id}>
-                    <Card
-                      title={
-                        <div style={{ fontWeight: "bold", fontSize: "20px" }}>
-                          {item.title}
-                        </div>
-                      }
-                      bordered={false}
-                      style={{ width: "100%" }}
-                      actions={[
-                        <div>
-                          {item.commentNumber !== 0
-                            ? (item.voteAvg / item.commentNumber).toFixed(2)
-                            : 0}
-                          <Icon type="star" theme="filled" className="ml-1" />
-                        </div>,
-                        <div>
-                          {item.commentNumber}
-                          <Icon
-                            type="message"
-                            theme="filled"
-                            className="ml-1"
-                          />
-                        </div>,
-                        <div>
-                          <Icon type="clock-circle" className="mr-2" />
-                          <Moment fromNow ago className="mr-1">
-                            {item.createAt}
-                          </Moment>
-                          ago
-                        </div>
-                      ]}
-                      extra={
-                        <a
-                          style={{ fontWeight: "bold" }}
-                          href={"/users/" + item.author._id}
-                          className="underline"
-                        >
-                          Author: {item.author.fullName}
-                          {item.author.avatar ? (
-                            <Avatar
-                              size="large"
-                              src={item.author.avatar}
-                              className="mb-2 ml-2 border-bl"
-                              style={{
-                                borderWidth: "1px",
-                                borderStyle: "solid"
-                              }}
-                            ></Avatar>
-                          ) : (
-                            <Avatar
-                              icon="user"
-                              size="large"
-                              className="ml-2 "
-                              style={{
-                                borderWidth: "1px",
-                                borderStyle: "solid"
-                              }}
+            <div style={{ marginRight: "20vh", marginLeft: "20vh" }}>
+              {this.state.dataSource.length !== 0 ? (
+                <div className="cap">Relate Post:</div>
+              ) : null}
+              {this.state.dataSource.map(item => {
+                if (item.content.length > 300) {
+                  var contentReg = item.content.substring(0, 297) + ". . .";
+                } else {
+                  var contentReg = item.content;
+                }
+                return (
+                  <div
+                    style={{ background: "#ECECEC", padding: "30px" }}
+                    key={item._id}
+                    className="mt-3"
+                  >
+                    <a href={"/posts/" + item._id}>
+                      <Card
+                        title={
+                          <div style={{ fontWeight: "bold", fontSize: "20px" }}>
+                            {item.title}
+                          </div>
+                        }
+                        bordered={false}
+                        style={{ width: "100%" }}
+                        actions={[
+                          <div>
+                            {item.commentNumber !== 0
+                              ? (item.voteAvg / item.commentNumber).toFixed(2)
+                              : 0}
+                            <Icon type="star" theme="filled" className="ml-1" />
+                          </div>,
+                          <div>
+                            {item.commentNumber}
+                            <Icon
+                              type="message"
+                              theme="filled"
+                              className="ml-1"
                             />
-                          )}
-                        </a>
-                      }
-                    >
-                      <img src={item.srcUrl[0]} style={{ width: "27%" }}></img>
-                      <p
-                        style={{
-                          width: "70%",
-                          display: "inline-block",
-                          float: "right"
-                        }}
+                          </div>,
+                          <div>
+                            <Icon type="clock-circle" className="mr-2" />
+                            <Moment fromNow ago className="mr-1">
+                              {item.createAt}
+                            </Moment>
+                            ago
+                        </div>
+                        ]}
+                        extra={
+                          <a
+                            style={{ fontWeight: "bold" }}
+                            href={"/users/" + item.author._id}
+                            className="underline"
+                          >
+                            Author: {item.author.fullName}
+                            {item.author.avatar ? (
+                              <Avatar
+                                size="large"
+                                src={item.author.avatar}
+                                className="mb-2 ml-2 border-bl"
+                                style={{
+                                  borderWidth: "1px",
+                                  borderStyle: "solid"
+                                }}
+                              ></Avatar>
+                            ) : (
+                                <Avatar
+                                  icon="user"
+                                  size="large"
+                                  className="ml-2 "
+                                  style={{
+                                    borderWidth: "1px",
+                                    borderStyle: "solid"
+                                  }}
+                                />
+                              )}
+                          </a>
+                        }
                       >
-                        {contentReg}
-                      </p>
-                      {item.tag.map((i, index) => {
-                        return (
-                          <Tag className="mt-3" key={index}>
-                            <a href="">{i}</a>
-                          </Tag>
-                        );
-                      })}
-                    </Card>
-                  </a>
-                </div>
-              );
-            })}
-          </div>
-        )}
+                        <img src={item.srcUrl[0]} style={{ width: "27%" }}></img>
+                        <p
+                          style={{
+                            width: "70%",
+                            display: "inline-block",
+                            float: "right"
+                          }}
+                        >
+                          {contentReg}
+                        </p>
+                        {item.tag.map((i, index) => {
+                          return (
+                            <Tag className="mt-3" key={index}>
+                              <a href="">{i}</a>
+                            </Tag>
+                          );
+                        })}
+                      </Card>
+                    </a>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         {this.state.notFoundTag === true ? (
           <Alert
             message="No Tag Found!"
@@ -301,103 +302,103 @@ class SearchScreen extends React.Component {
             className="mt-3 mb-3"
           ></Alert>
         ) : (
-          <div style={{ marginRight: "20vh", marginLeft: "20vh" }}>
-            {this.state.dataTag.length !== 0 ? (
-              <div className="cap">Relate Tag:</div>
-            ) : null}
-            {this.state.dataTag.map(item => {
-              if (item.content.length > 300) {
-                var contentReg = item.content.substring(0, 297) + ". . .";
-              } else {
-                var contentReg = item.content;
-              }
-              return (
-                <div
-                  style={{ background: "#ECECEC", padding: "30px" }}
-                  key={item._id}
-                  className="mt-3"
-                >
-                  <a href={"/posts/" + item._id}>
-                    <Card
-                      title={
-                        <div style={{ fontWeight: "bold", fontSize: "20px" }}>
-                          {item.title}
-                        </div>
-                      }
-                      bordered={false}
-                      style={{ width: "100%" }}
-                      actions={[
-                        <div>
-                          {item.commentNumber !== 0
-                            ? (item.voteAvg / item.commentNumber).toFixed(2)
-                            : 0}
-                          <Icon type="star" theme="filled" className="ml-1" />
-                        </div>,
-                        <div>
-                          {item.commentNumber}
-                          <Icon
-                            type="message"
-                            theme="filled"
-                            className="ml-1"
-                          />
-                        </div>,
-                        <div>
-                          <Icon type="clock-circle" className="mr-2" />
-                          <Moment fromNow ago className="mr-1">
-                            {item.createAt}
-                          </Moment>
-                          ago
-                        </div>
-                      ]}
-                      extra={
-                        <a
-                          style={{ fontWeight: "bold" }}
-                          href={"/users/" + item.author._id}
-                          className="underline"
-                        >
-                          Author: {item.author.fullName}
-                          {item.author.avatar ? (
-                            <Avatar
-                              size="large"
-                              src={item.author.avatar}
-                              className="mb-2 ml-2 border-bl"
-                              style={{
-                                borderWidth: "1px",
-                                borderStyle: "solid"
-                              }}
-                            ></Avatar>
-                          ) : (
-                            <Avatar
-                              icon="user"
-                              size="large"
-                              className="ml-2 "
-                              style={{
-                                borderWidth: "1px",
-                                borderStyle: "solid"
-                              }}
+            <div style={{ marginRight: "20vh", marginLeft: "20vh" }}>
+              {this.state.dataTag.length !== 0 ? (
+                <div className="cap">Relate Tag:</div>
+              ) : null}
+              {this.state.dataTag.map(item => {
+                if (item.content.length > 300) {
+                  var contentReg = item.content.substring(0, 297) + ". . .";
+                } else {
+                  var contentReg = item.content;
+                }
+                return (
+                  <div
+                    style={{ background: "#ECECEC", padding: "30px" }}
+                    key={item._id}
+                    className="mt-3"
+                  >
+                    <a href={"/posts/" + item._id}>
+                      <Card
+                        title={
+                          <div style={{ fontWeight: "bold", fontSize: "20px" }}>
+                            {item.title}
+                          </div>
+                        }
+                        bordered={false}
+                        style={{ width: "100%" }}
+                        actions={[
+                          <div>
+                            {item.commentNumber !== 0
+                              ? (item.voteAvg / item.commentNumber).toFixed(2)
+                              : 0}
+                            <Icon type="star" theme="filled" className="ml-1" />
+                          </div>,
+                          <div>
+                            {item.commentNumber}
+                            <Icon
+                              type="message"
+                              theme="filled"
+                              className="ml-1"
                             />
-                          )}
-                        </a>
-                      }
-                    >
-                      <img src={item.srcUrl[0]} style={{ width: "27%" }}></img>
-                      <p
-                        style={{
-                          width: "70%",
-                          display: "inline-block",
-                          float: "right"
-                        }}
+                          </div>,
+                          <div>
+                            <Icon type="clock-circle" className="mr-2" />
+                            <Moment fromNow ago className="mr-1">
+                              {item.createAt}
+                            </Moment>
+                            ago
+                        </div>
+                        ]}
+                        extra={
+                          <a
+                            style={{ fontWeight: "bold" }}
+                            href={"/users/" + item.author._id}
+                            className="underline"
+                          >
+                            Author: {item.author.fullName}
+                            {item.author.avatar ? (
+                              <Avatar
+                                size="large"
+                                src={item.author.avatar}
+                                className="mb-2 ml-2 border-bl"
+                                style={{
+                                  borderWidth: "1px",
+                                  borderStyle: "solid"
+                                }}
+                              ></Avatar>
+                            ) : (
+                                <Avatar
+                                  icon="user"
+                                  size="large"
+                                  className="ml-2 "
+                                  style={{
+                                    borderWidth: "1px",
+                                    borderStyle: "solid"
+                                  }}
+                                />
+                              )}
+                          </a>
+                        }
                       >
-                        {contentReg}
-                      </p>
-                      {item.tag.map((i, index) => {
-                        return (
-                          <Tag className="mt-3" key={index}>
-                            <a href={"/search/" + i}>{i}</a>
-                          </Tag>
-                        );
-                      })}
-                      {/*item.srcUrl.map((i, index) => {
+                        <img src={item.srcUrl[0]} style={{ width: "27%" }}></img>
+                        <p
+                          style={{
+                            width: "70%",
+                            display: "inline-block",
+                            float: "right"
+                          }}
+                        >
+                          {contentReg}
+                        </p>
+                        {item.tag.map((i, index) => {
+                          return (
+                            <Tag className="mt-3" key={index}>
+                              <a href={"/search/" + i}>{i}</a>
+                            </Tag>
+                          );
+                        })}
+                        {/*item.srcUrl.map((i, index) => {
                       return (
                         <img
                           src={i}
@@ -406,13 +407,13 @@ class SearchScreen extends React.Component {
                         ></img>
                       );
                     })*/}
-                    </Card>
-                  </a>
-                </div>
-              );
-            })}
-          </div>
-        )}
+                      </Card>
+                    </a>
+                  </div>
+                );
+              })}
+            </div>
+          )}
       </div>
     );
   }
