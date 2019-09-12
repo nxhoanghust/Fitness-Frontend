@@ -280,56 +280,56 @@ class BlogScreen extends React.Component {
         formData.append("images", item.originFileObj);
         //console.log(item);
         //}
-        fetch("http://localhost:3001/upload/image", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            Accept: "application/json"
-            //"Content-Type": "multipart/form-data"
-          },
-          body: formData
-        })
-          .then(res => {
-            return res.json();
-          })
-          .then(data => {
-            // console.log(data.imageUrl);
-            //console.log(this.state);
-            fetch("http://localhost:3001/posts/create", {
-              credentials: "include",
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                content: this.state.content,
-                imageUrl: data.imageUrl,
-                tag: this.state.tags,
-                title: this.state.title
-              })
-            })
-              .then(res => {
-                return res.json();
-              })
-              .then(data1 => {
-                if (data1.success === false) {
-                  message.error(data1.message);
-                } else {
-                  message.success("Post successful");
-                  window.location.href = "/blogs";
-                }
-              })
-              .catch(err => {
-                console.log(err);
-                this.setState({
-                  errMessage: err.message
-                });
-              });
-          })
-          .catch(error => {
-            message.error(error);
-          });
       }
+      fetch("http://localhost:3001/upload/image", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          Accept: "application/json"
+          //"Content-Type": "multipart/form-data"
+        },
+        body: formData
+      })
+        .then(res => {
+          return res.json();
+        })
+        .then(data => {
+          // console.log(data.imageUrl);
+          //console.log(this.state);
+          fetch("http://localhost:3001/posts/create", {
+            credentials: "include",
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              content: this.state.content,
+              imageUrl: data.imageUrl,
+              tag: this.state.tags,
+              title: this.state.title
+            })
+          })
+            .then(res => {
+              return res.json();
+            })
+            .then(data1 => {
+              if (data1.success === false) {
+                message.error(data1.message);
+              } else {
+                message.success("Post successful");
+                window.location.href = "/blogs";
+              }
+            })
+            .catch(err => {
+              console.log(err);
+              this.setState({
+                errMessage: err.message
+              });
+            });
+        })
+        .catch(error => {
+          message.error(error);
+        });
     }
   };
   //OnCancel
@@ -580,6 +580,7 @@ class BlogScreen extends React.Component {
                   type="text"
                   size="small"
                   style={{ width: 78 }}
+                  maxLength="10"
                   value={inputValue}
                   onChange={this.handleInputTageChange}
                   onBlur={this.handleInputTagConfirm}
@@ -683,7 +684,7 @@ class BlogScreen extends React.Component {
                                   className="center"
                                   style={{
                                     width: "76%",
-                                    height: "98%",
+                                    height: "auto",
                                     objectFit: "cover"
                                   }}
                                 ></img>
@@ -694,7 +695,6 @@ class BlogScreen extends React.Component {
                                   style={{
                                     width: "76%",
                                     height: "98%",
-                                    float: "center",
                                     objectFit: "cover"
                                   }}
                                   className="center"
@@ -702,16 +702,20 @@ class BlogScreen extends React.Component {
                                   {i.srcUrl.map(item => {
                                     //console.log(item);
                                     return (
-                                      <div className="center">
+                                      <div
+                                        style={{
+                                          width: "76%",
+                                          height: "100%"
+                                        }}
+                                      >
                                         <img
                                           src={item}
                                           style={{
-                                            width: "76%",
-                                            height: "98%",
-                                            float: "center",
-                                            objectFit: "cover"
+                                            width: "100%",
+                                            height: "22rem",
+                                            objectFit: "contain",
+                                            verticalAlign: "top"
                                           }}
-                                          className="center"
                                         ></img>
                                       </div>
                                     );
