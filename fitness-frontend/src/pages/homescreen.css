@@ -1,45 +1,49 @@
-.HomeScreen .image-intro .img-fluid{
-    width: 250px;
-    margin-left: 200px;
-    margin-top: 50px;
+.HomeScreen .image-intro .img-fluid {
+  max-width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.HomeScreen .content-intro h4{
-    padding-top: 50px;
-    padding-bottom: 10px;
-    text-align: center;
-    color: 	#5a5a5a;
-    font-family: 'montserrat';
-    font-size: 24px;
+.HomeScreen .content-intro h4 {
+  position: relative;
+  padding-top: 50px;
+  padding-bottom: 10px;
+  text-align: center;
+  color: #5a5a5a;
+  font-family: "montserrat";
+  font-size: 24px;
 }
 
-.HomeScreen .content-intro{
-    max-width: 80vh;
-    font-size: 18px;
+.HomeScreen .content-intro {
+  position: relative;
+
+  max-width: 80vh;
+  font-size: 18px;
 }
 
-.HomeScreen .content-intro-2{
-    max-width: 80vh;
-    margin-left: 25%;
-    color: #dddddd;
-    font-size: 18px;
+.HomeScreen .content-intro-2 {
+  position: relative;
+
+  max-width: 80vh;
+  margin-left: 25%;
+  color: #dddddd;
+  font-size: 18px;
 }
 
-.HomeScreen .content-intro-2 h4{
-    padding-top: 50px;
-    padding-bottom: 10px;
-    text-align: center;
-    color: 	#ffffff;
-    font-family: 'montserrat';
-    font-size: 24px;
+.HomeScreen .content-intro-2 h4 {
+  padding-top: 50px;
+  padding-bottom: 10px;
+  text-align: center;
+  color: #ffffff;
+  font-family: "montserrat";
+  font-size: 24px;
 }
 
-.HomeScreen .intro-container-2{
-    margin-top: 60px;
-    padding-top: 60px;
-    background-image: linear-gradient(to bottom right,#002f4b,#dc4225);
-    opacity: .9;
-    padding-bottom: 60px;
+.HomeScreen .intro-container-2 {
+  margin-top: 60px;
+  padding-top: 60px;
+  background-image: linear-gradient(to bottom right, #002f4b, #dc4225);
+  opacity: 0.9;
+  padding-bottom: 60px;
 }
-
-
