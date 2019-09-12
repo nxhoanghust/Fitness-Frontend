@@ -32,16 +32,7 @@ class HomePageScreen extends React.Component {
           <div className="body container-fluid">
             <div className="row intro-container" ref="foo3">
               <div className="col-6 image-intro">
-                <img
-                  src={fitness7}
-                  className="img-fluid center"
-                  alt=""
-                  style={{
-                    width: "100%",
-                    maxWidth: "400px",
-                    height: "auto"
-                  }}
-                />
+                <img src={fitness7} className="img-fluid center" alt="" />
               </div>
               <div className="col-6">
                 <div className="content-intro">
