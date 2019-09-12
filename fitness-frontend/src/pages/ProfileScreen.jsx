@@ -212,16 +212,11 @@ class ProfileScreen extends React.Component {
     const { imageUrl } = this.state;
     console.log(this.state);
     return (
-      <div className=" pt-4 ml-5 pl-5 mr-5 pr-5 ">
+      <div style={{ marginTop: "10%" }}>
         <h1 className="mb-2 mr-2" style={{ textAlign: "center" }}>
           User Profile:
         </h1>
-        <div
-          className=" pt-4 ml-5 pl-5 mr-5 pr-5"
-          style={{
-            fontSize: "19px"
-          }}
-        >
+        <div className=" pt-4 ml-5 pl-5 mr-5 pr-5 ">
           <Descriptions title="User Info">
             <div>
               Avatar:

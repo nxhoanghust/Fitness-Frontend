@@ -111,6 +111,10 @@ function statusBMI(BMI) {
 }
 class StatisticScreen extends React.Component {
   componentDidMount() {
+    if (!window.sessionStorage._id || !window.sessionStorage.email) {
+      window.location.href = "/login";
+    } else {
+    }
     fetch(`http://localhost:3001/users/statistic/get`, {
       credentials: "include",
       method: "GET"

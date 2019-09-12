@@ -5,6 +5,11 @@ import "./LoginScreen.css";
 const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 class NornamlForm extends React.Component {
+  componentWillMount() {
+    if (window.sessionStorage._id && window.sessionStorage.email) {
+      window.location.href = "/";
+    }
+  }
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {

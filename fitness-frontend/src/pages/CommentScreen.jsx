@@ -20,7 +20,7 @@ import {
   Tooltip
 } from "antd";
 import "antd/dist/antd.css";
-import { Button } from "antd/lib/radio";
+import renderHTML from "react-render-html";
 const { Meta } = Card;
 const { Textarea } = Input;
 const postsId = window.location.pathname.split("/")[2];
@@ -208,7 +208,12 @@ class CommentSreen extends React.Component {
       </div>
     );
     return (
-      <div className="ml-5 mr-5 pt-3">
+      <div
+        className="ml-5 mr-5 pt-3"
+        style={{
+          marginTop: "7%"
+        }}
+      >
         <Breadcrumb separator=">" className="mb-3">
           <Breadcrumb.Item>
             <Breadcrumb.Item className="breadcrumb-item">
@@ -319,36 +324,46 @@ class CommentSreen extends React.Component {
               )}
             </Col>
             <Col span={19} className="pt-4 bg-content">
-              <div className="mb-2 ml-2">USER POST</div>
-              <h2
-                style={{ fontWeight: "bold", textTransform: "uppercase" }}
-                className="mb-4 ml-2"
-              >
-                {this.state.data.title}
-              </h2>
-              <div className="ml-1 mb-5 pb-3 mr-2">
-                {this.state.data.content}
-              </div>
-              <div style={{ float: "right" }} className="mb-2 mr-4">
-                {this.state.vote ? (
-                  <div>
-                    Average Rate :
-                    {" " +
-                      (
-                        this.state.data.voteAvg / this.state.data.commentNumber
-                      ).toFixed(1) +
-                      " "}
-                    stars
-                    <Rate
-                      disabled
-                      allowHalf
-                      defaultValue={
-                        this.state.data.vote ? this.state.data.vote : null
-                      }
-                      className="ml-2 pb-5"
-                    ></Rate>
-                  </div>
-                ) : null}
+              <div style={{ width: "100%" }}>
+                <div className="mb-2 ml-2">USER POST</div>
+                <h2
+                  style={{ fontWeight: "bold", textTransform: "uppercase" }}
+                  className="mb-4 ml-2"
+                >
+                  {this.state.data.title}
+                </h2>
+                <div
+                  className="ml-1 mb-5 pb-3 mr-2 content-html"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    objectFit: "contain"
+                  }}
+                >
+                  {renderHTML(`${this.state.data.content}`)}
+                </div>
+                <div style={{ float: "right" }} className="mb-2 mr-4">
+                  {this.state.vote ? (
+                    <div>
+                      Average Rate :
+                      {" " +
+                        (
+                          this.state.data.voteAvg /
+                          this.state.data.commentNumber
+                        ).toFixed(1) +
+                        " "}
+                      stars
+                      <Rate
+                        disabled
+                        allowHalf
+                        defaultValue={
+                          this.state.data.vote ? this.state.data.vote : null
+                        }
+                        className="ml-2 pb-5"
+                      ></Rate>
+                    </div>
+                  ) : null}
+                </div>
               </div>
             </Col>
           </Col>
@@ -452,7 +467,7 @@ class CommentSreen extends React.Component {
                           }
                           content={
                             <div>
-                              <p>{item.content}</p>
+                              {item.content}
                               <div
                                 className="mb-3 mr-2"
                                 style={{ float: "right" }}

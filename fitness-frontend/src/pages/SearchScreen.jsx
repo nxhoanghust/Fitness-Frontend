@@ -3,6 +3,7 @@ import _ from "lodash";
 import Moment from "react-moment";
 import "./SearchScreen.css";
 import { Input, Card, Avatar, Icon, Tag, Button, Alert } from "antd";
+import renderHTML from "react-render-html";
 import fitness8 from "../img/fitness8.jpg";
 
 const { Search } = Input;
@@ -154,11 +155,13 @@ class SearchScreen extends React.Component {
   render() {
     console.log(this.state);
     return (
-      <div
-        className="abc"
-        
-      >
-        <div className="center">
+      <div className="abc">
+        <div
+          className="center"
+          style={{
+            marginBottom: "3%"
+          }}
+        >
           <Search
             className="container "
             placeholder=" Search"
@@ -174,6 +177,16 @@ class SearchScreen extends React.Component {
             }}
             onSearch={this.handleSearch}
           />
+          <div
+            style={{
+              fontWeight: "lighter ",
+              float: "left",
+              fontStyle: "italic",
+              marginLeft: "5%"
+            }}
+          >
+            You can search for post title and tag name
+          </div>
         </div>
         {this.state.loading && this.state.searchKey ? (
           <Button
@@ -198,11 +211,12 @@ class SearchScreen extends React.Component {
               <div className="cap">Relate Post:</div>
             ) : null}
             {this.state.dataSource.map(item => {
-              if (item.content.length > 300) {
-                var contentReg = item.content.substring(0, 297) + ". . .";
-              } else {
-                var contentReg = item.content;
-              }
+              const content = renderHTML(`${item.content}`);
+              // if (item.content.length > 300) {
+              //   var contentReg = item.content.substring(0, 297) + ". . .";
+              // } else {
+              //   var contentReg = item.content;
+              // }
               return (
                 <div
                   style={{ background: "#ECECEC", padding: "30px" }}
@@ -212,7 +226,10 @@ class SearchScreen extends React.Component {
                   <a href={"/posts/" + item._id}>
                     <Card
                       title={
-                        <div style={{ fontWeight: "bold", fontSize: "20px" }}>
+                        <div
+                          className="title-box"
+                          style={{ fontWeight: "bold", fontSize: "20px" }}
+                        >
                           {item.title}
                         </div>
                       }
@@ -280,7 +297,7 @@ class SearchScreen extends React.Component {
                           float: "right"
                         }}
                       >
-                        {contentReg}
+                        <div className="content-find"> {content}</div>
                       </p>
                       {item.tag.map((i, index) => {
                         return (
@@ -326,11 +343,12 @@ class SearchScreen extends React.Component {
               <div className="cap">Relate Tag:</div>
             ) : null}
             {this.state.dataTag.map(item => {
-              if (item.content.length > 300) {
-                var contentReg = item.content.substring(0, 297) + ". . .";
-              } else {
-                var contentReg = item.content;
-              }
+              const content = renderHTML(`${item.content}`);
+              // if (item.content.length > 300) {
+              //   var contentReg = item.content.substring(0, 297) + ". . .";
+              // } else {
+              //   var contentReg = item.content;
+              // }
               return (
                 <div
                   style={{ background: "#ECECEC", padding: "30px" }}
@@ -340,7 +358,10 @@ class SearchScreen extends React.Component {
                   <a href={"/posts/" + item._id}>
                     <Card
                       title={
-                        <div style={{ fontWeight: "bold", fontSize: "20px" }}>
+                        <div
+                          style={{ fontWeight: "bold", fontSize: "20px" }}
+                          className="title-box"
+                        >
                           {item.title}
                         </div>
                       }
@@ -408,7 +429,7 @@ class SearchScreen extends React.Component {
                           float: "right"
                         }}
                       >
-                        {contentReg}
+                        <div className="content-find"> {content}</div>
                       </p>
                       {item.tag.map((i, index) => {
                         return (

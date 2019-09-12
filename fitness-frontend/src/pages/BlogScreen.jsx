@@ -23,10 +23,11 @@ import "antd/dist/antd.css";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { TweenOneGroup } from "rc-tween-one";
+import renderHTML from "react-render-html";
 
 const { TextArea, Search } = Input;
 const { Option } = AutoComplete;
-
+var check = true;
 function getBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -92,6 +93,22 @@ function roundHalf(num) {
 /*function newDate(date) {
   return date.substring(0, 10);
 }*/
+
+function beforeUpload(file) {
+  const isJpgOrPng =
+    file.type === "image/jpeg" ||
+    file.type === "image/png" ||
+    file.type === "image/jpg";
+  if (!isJpgOrPng) {
+    message.error("You can only upload JPG/PNG/JPEG file!");
+  }
+  const isLt5M = file.size / 1024 / 1024 < 5;
+  if (!isLt5M) {
+    message.error("Image must smaller than 5MB!");
+  }
+  check = isJpgOrPng && isLt5M;
+  return isJpgOrPng && isLt5M;
+}
 
 class BlogScreen extends React.Component {
   componentDidMount() {
@@ -215,15 +232,7 @@ class BlogScreen extends React.Component {
 
   handlePictureCancel = () => this.setState({ previewVisible: false });
   handleChange = ({ fileList }) => {
-    if (fileList[fileList.length - 1].size > 5000000) {
-      message.error("Please choose file with size <5MB");
-      fileList.pop();
-    } else if (
-      !fileList[fileList.length - 1].name.match(/jpeg|png|jpg|PNG|JPG|JPEG/)
-    ) {
-      message.error("Not recorgnize the type");
-      fileList.pop();
-    } else {
+    if (check === true) {
       this.setState({ fileList });
     }
   };
@@ -232,7 +241,6 @@ class BlogScreen extends React.Component {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
-
     this.setState({
       previewImage: file.url || file.preview,
       previewVisible: true
@@ -259,58 +267,69 @@ class BlogScreen extends React.Component {
     } else {
       const formData = new FormData();
       for (const item of this.state.fileList) {
+        console.log(item);
+        // if (
+        //   item.type !== "image/jpeg" ||
+        //   item.type === "image/png" ||
+        //   item.type === "image/jpg"
+        // ) {
+        //   message.error("You can only upload JPG/PNG/JPEG file!");
+        // } else if (item.size / 1024 / 1024 < 5) {
+        //   message.error("Image must smaller than 5MB!");
+        // } else {
         formData.append("images", item.originFileObj);
         //console.log(item);
-      }
-      fetch("http://localhost:3001/upload/image", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          Accept: "application/json"
-          //"Content-Type": "multipart/form-data"
-        },
-        body: formData
-      })
-        .then(res => {
-          return res.json();
+        //}
+        fetch("http://localhost:3001/upload/image", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            Accept: "application/json"
+            //"Content-Type": "multipart/form-data"
+          },
+          body: formData
         })
-        .then(data => {
-          // console.log(data.imageUrl);
-          //console.log(this.state);
-          fetch("http://localhost:3001/posts/create", {
-            credentials: "include",
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              content: this.state.content,
-              imageUrl: data.imageUrl,
-              tag: this.state.tags,
-              title: this.state.title
-            })
+          .then(res => {
+            return res.json();
           })
-            .then(res => {
-              return res.json();
+          .then(data => {
+            // console.log(data.imageUrl);
+            //console.log(this.state);
+            fetch("http://localhost:3001/posts/create", {
+              credentials: "include",
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                content: this.state.content,
+                imageUrl: data.imageUrl,
+                tag: this.state.tags,
+                title: this.state.title
+              })
             })
-            .then(data1 => {
-              if (data1.success === false) {
-                message.error(data1.message);
-              } else {
-                message.success("Post successful");
-                window.location.href = "/blogs";
-              }
-            })
-            .catch(err => {
-              console.log(err);
-              this.setState({
-                errMessage: err.message
+              .then(res => {
+                return res.json();
+              })
+              .then(data1 => {
+                if (data1.success === false) {
+                  message.error(data1.message);
+                } else {
+                  message.success("Post successful");
+                  window.location.href = "/blogs";
+                }
+              })
+              .catch(err => {
+                console.log(err);
+                this.setState({
+                  errMessage: err.message
+                });
               });
-            });
-        })
-        .catch(error => {
-          message.error(error);
-        });
+          })
+          .catch(error => {
+            message.error(error);
+          });
+      }
     }
   };
   //OnCancel
@@ -319,11 +338,11 @@ class BlogScreen extends React.Component {
       visible: false
     });
   };
-  handleContentChange = e => {
-    this.setState({
-      content: e.target.value
-    });
-  };
+  // handleContentChange = e => {
+  //   this.setState({
+  //     content: e.target.value
+  //   });
+  // };
   handleTitleChange = e => {
     this.setState({
       title: e.target.value
@@ -390,7 +409,6 @@ class BlogScreen extends React.Component {
 
   render() {
     const { dataSource } = this.state;
-    console.log(this.state);
     const { previewVisible, previewImage, fileList } = this.state;
     const { tags, inputVisible, inputValue } = this.state;
     const tagChild = tags.map(this.forMap);
@@ -402,7 +420,12 @@ class BlogScreen extends React.Component {
     );
 
     return (
-      <div className="ml-5 mr-5 pt-3">
+      <div
+        style={{
+          marginTop: "7rem",
+          marginLeft: "5%"
+        }}
+      >
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
             <Breadcrumb.Item className="breadcrumb-item">
@@ -422,11 +445,11 @@ class BlogScreen extends React.Component {
 
         <div className="row ml-4 mt-3" style={{ width: "100%" }}>
           <Row style={{ width: "100%" }}>
-            <Col span={6}>
+            <Col span={12}>
               {window.sessionStorage._id && window.sessionStorage.email ? (
                 <button
                   type="button"
-                  className="btn btn-outline-dark add-post "
+                  className="btn btn-outline-dark"
                   onClick={this.showModal}
                   style={{
                     width: "200px",
@@ -439,10 +462,10 @@ class BlogScreen extends React.Component {
                 </button>
               ) : null}
             </Col>
-            <Col span={7} style={{ float: "right" }}>
+            <Col span={6}>
               <div
                 className="global-search-wrapper"
-                style={{ width: 400, marginLeft: "89px", fontSize: "18px" }}
+                style={{ width: 400, fontSize: "18px" }}
               >
                 <AutoComplete
                   className="global-search"
@@ -456,7 +479,7 @@ class BlogScreen extends React.Component {
                 >
                   <Input
                     size="default"
-                    style={{ fontSize: "18px" }}
+                    className="input-size"
                     suffix={
                       <Button
                         className="search-btn"
@@ -479,35 +502,41 @@ class BlogScreen extends React.Component {
             onCancel={this.handleCancel}
           >
             <form>
-              <h3 className="modal-upload">Title:</h3>
+              <h3 className="modal-upload margin-2">Title:</h3>
               <Input
                 placeholder="Title"
                 value={this.state.title}
                 onChange={this.handleTitleChange}
                 maxLength={100}
+                className=" margin-2"
               ></Input>
-              <h3 className="modal-upload">Content:</h3>
-              <CKEditor
-                className="editor"
-                editor={ClassicEditor}
-                data="<p>Hello from CKEditor 5!</p>"
-              
-                onInit={editor => {
-                  // You can store the "editor" and use when it is needed.
-                  console.log("Editor is ready to use!", editor);
-                }}
-                onChange={(event, editor) => {
-                  const data = editor.getData();
-                  console.log({ event, editor, data });
-                }}
-                onBlur={(event, editor) => {
-                  console.log("Blur.", editor);
-                }}
-                onFocus={(event, editor) => {
-                  console.log("Focus.", editor);
-                }}
-              />
-              <h3 className="modal-upload">Picture:</h3>
+              <h3 className="modal-upload margin-2">Content:</h3>
+              <div className="mod">
+                <CKEditor
+                  className="editor margin-2"
+                  editor={ClassicEditor}
+                  config={{
+                    placeholder: "Input your content here!"
+                  }}
+                  onInit={editor => {
+                    // You can store the "editor" and use when it is needed.
+                    console.log("Editor is ready to use!", editor);
+                  }}
+                  onChange={(event, editor) => {
+                    const data = editor.getData();
+                    this.setState({
+                      content: data
+                    });
+                  }}
+                  onBlur={(event, editor) => {
+                    console.log("Blur.", editor);
+                  }}
+                  onFocus={(event, editor) => {
+                    console.log("Focus.", editor);
+                  }}
+                />
+              </div>
+              <h3 className="modal-upload margin-2">Picture:</h3>
             </form>
             <Upload
               action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
@@ -515,6 +544,8 @@ class BlogScreen extends React.Component {
               fileList={fileList}
               onPreview={this.handlePicturePreview}
               onChange={this.handleChange}
+              beforeUpload={beforeUpload}
+              className="margin-2"
             >
               {fileList.length >= 8 ? null : uploadButton}
             </Upload>
@@ -570,11 +601,12 @@ class BlogScreen extends React.Component {
           <Col span={18} className="post">
             {this.state.data
               ? this.state.data.map(i => {
-                  if (i.content.length > 600) {
-                    var contentReg = i.content.substring(0, 597) + ". . .";
+                  const content = renderHTML(`${i.content}`);
+                  /*if (content.length > 600) {
+                    var contentReg = content.substring(0, 597) + ". . .";
                   } else {
-                    var contentReg = i.content;
-                  }
+                    var contentReg = content;
+                  }*/
                   return (
                     <div style={{ background: "#ECECEC", padding: "30px" }}>
                       <Row gutter={24}>
@@ -686,9 +718,7 @@ class BlogScreen extends React.Component {
                                   })}
                                 </Carousel>
                               )}
-                              <div className="mt-2 content-box">
-                                {contentReg}
-                              </div>
+                              <div className="mt-2 content-box">{content}</div>
                               {i.tag.map((item, index) => {
                                 return (
                                   <Tag className="mt-3" key={index}>

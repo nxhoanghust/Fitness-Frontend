@@ -151,10 +151,9 @@ class FindSpaceScreen extends React.Component {
               />
             </div>
           </Carousel>
-          ,
         </div>
         <div id="button" className="container">
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: "center", marginTop: "2%"   }}>
             <span className="note ml-1">G</span>: GYM ○
             <span className="note ml-1">Y</span>: YOGA ○
             <span className="note ml-1">A</span>: THỂ DỤC THẨM MỸ ○
@@ -169,7 +168,7 @@ class FindSpaceScreen extends React.Component {
           {/* <Radio.Group value={size} onChange={this.handleSizeChange} /> */}
           <br />
           <br />
-          <Row gutter={16}>
+          <Row gutter={20} style={{ marginLeft: "5%" }}>
             <Col span={12}>
               <Dropdown
                 overlay={
@@ -186,7 +185,7 @@ class FindSpaceScreen extends React.Component {
                 }
               >
                 <Button
-                  className="button1 "
+                  className="button1"
                   type="primary"
                   shape="round"
                   size={size}

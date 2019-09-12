@@ -34,7 +34,16 @@ class HomePageScreen extends React.Component {
           <div className="body container-fluid">
             <div className="row intro-container" ref="foo3">
               <div className="col-6 image-intro">
-                <img src={fitness7} className="img-fluid" alt="" />
+                <img
+                  src={fitness7}
+                  className="img-fluid center"
+                  alt=""
+                  style={{
+                    width: "100%",
+                    maxWidth: "400px",
+                    height: "auto"
+                  }}
+                />
               </div>
               <div className="col-6">
                 <div className="content-intro">
@@ -92,7 +101,6 @@ class HomePageScreen extends React.Component {
             <br></br>
           </div>
         </div>
-        
       </div>
     );
   }
